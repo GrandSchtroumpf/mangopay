@@ -1,5 +1,6 @@
-import type { Api } from "../mangopay";
+import type { Api, MangoPayContext } from "../mangopay";
 import { Address, CountryISO, Language, Money, CardType, BrowserInfo } from "../type";
+import { toMoney } from "../utils";
 
 interface AddressDestination {
   FirstName: string;
@@ -68,8 +69,8 @@ interface DirectPayin {
   AuthorId: string;
   CreditedUserId?: string;
   CreditedWalletId: string;
-  DebitedFunds: Money;
-  Fees: Money;
+  DebitedFunds: Money | number;
+  Fees?: Money | number;
   SecureModeReturnURL: string;
   CardId: string;
   Culture?: Language;
@@ -82,8 +83,19 @@ interface DirectPayin {
   Tag?: string;
 }
 
+
+function toDirectPayin(ctx: MangoPayContext, payin: DirectPayin) {
+  return {
+    Culture: payin.Culture || ctx.lang,
+    ...payin,
+    DebitedFunds: toMoney(ctx, payin.DebitedFunds),
+    Fees: toMoney(ctx, payin.Fees),
+  }
+}
+
+
 const baseUrl = 'payins/card';
-export const payinApi = ({ post, put, get }: Api) => ({
+export const payinApi = ({ context, post, put, get }: Api) => ({
   web: {
     create(data: WebPayin): Promise<Payin & WebPayin> {
       return post(`${baseUrl}/web`, data);
@@ -93,8 +105,8 @@ export const payinApi = ({ post, put, get }: Api) => ({
     },
   },
   direct: {
-    create(data: DirectPayin): Promise<Payin & DirectPayin> {
-      return post(`${baseUrl}/direct`, data);
+    create(payin: DirectPayin): Promise<Payin & DirectPayin> {
+      return post(`${baseUrl}/direct`, toDirectPayin(context, payin));
     },
   },
   get(id: string): Promise<Payin & (WebPayin | DirectPayin)> {

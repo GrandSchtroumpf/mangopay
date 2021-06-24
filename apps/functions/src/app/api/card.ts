@@ -1,4 +1,4 @@
-import type { Api } from "../mangopay";
+import type { Api, MangoPayContext } from "../mangopay";
 import { CurrencyISO, CardType, CountryISO } from "../type";
 
 type CardValidity = 'UNKNOWN' | 'VALID' | 'INVALID';
@@ -28,7 +28,7 @@ interface CardRegistration {
 interface CreateCardRegistration {
   /** Id of the owner of the card */
   UserId: string;
-  Currency: CurrencyISO;
+  Currency?: CurrencyISO;
   /** The type of card. Defaults to "CB_VISA_MASTERCARD". */
   CardType?: CardType;
 }
@@ -56,10 +56,17 @@ interface Card {
   Fingerprint: string;
 }
 
-export const cardApi = ({ post, put, get }: Api) => ({
+function toRegistration(ctx: MangoPayContext, registration: CreateCardRegistration) {
+  return {
+    Currency: registration.Currency || ctx.currency,
+    ...registration
+  }
+}
+
+export const cardApi = ({ context, post, put, get }: Api) => ({
   registration: {
     create(card: CreateCardRegistration): Promise<CardRegistration> {
-      return post('cardregistrations', card);
+      return post('cardregistrations', toRegistration(context, card));
     },
     update(registrationId: string, registrationData: string): Promise<CardRegistration> {
       return put(`cardregistrations/${registrationId}`, { RegistrationData: registrationData });

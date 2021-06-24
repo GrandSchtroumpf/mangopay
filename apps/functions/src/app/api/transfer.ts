@@ -1,5 +1,6 @@
-import type { Api } from '../mangopay';
+import type { Api, MangoPayContext } from '../mangopay';
 import { Money } from '../type';
+import { toMoney } from '../utils';
 import type { TransactionNature, TransactionStatus, TransactionType } from './transaction';
 
 interface Transfer {
@@ -21,12 +22,29 @@ interface Transfer {
   Type: TransactionType;
 }
 
-type CreateTransfer = Pick<Transfer, 'AuthorId' | 'CreditedUserId' | 'DebitedFunds' | 'Fees' | 'DebitedWalletId' | 'CreditedWalletId' | 'Tag'>;
+
+interface CreateTransfer {
+  AuthorId: string;
+  CreditedUserId: string;
+  DebitedWalletId: string;
+  CreditedWalletId: string;
+  DebitedFunds: Money | number;
+  Fees?: Money | number;
+  Tag?: string;
+}
+
+function toTransfer(ctx: MangoPayContext, transfer: CreateTransfer) {
+  return {
+    ...transfer,
+    DebitedFunds: toMoney(ctx, transfer.DebitedFunds),
+    Fees: toMoney(ctx, transfer.Fees)
+  }
+}
 
 const baseUrl = 'transfers';
-export const transferApi = ({ post, put, get }: Api) => ({
-  create(data: CreateTransfer): Promise<Transfer> {
-    return post(baseUrl, data);
+export const transferApi = ({ context, post, put, get }: Api) => ({
+  create(transfer: CreateTransfer): Promise<Transfer> {
+    return post(baseUrl, toTransfer(context, transfer));
   },
   get(id: string): Promise<Transfer | undefined> {
     return get(`${baseUrl}/${id}`);

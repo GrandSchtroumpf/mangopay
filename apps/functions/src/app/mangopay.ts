@@ -9,15 +9,24 @@ import { eventApi } from './api/event';
 import { transactionApi } from './api/transaction';
 import { transferApi } from './api/transfer';
 import { payoutApi } from './api/payout';
+import { CountryISO, CurrencyISO, Language } from './type';
 
 
 interface MangoPayOptions {
   clientId: string;
   apiKey: string;
   sandbox?: boolean;
+  context?: MangoPayContext;
+}
+
+export interface MangoPayContext {
+  country?: CountryISO;
+  lang?: Language;
+  currency?: CurrencyISO;
 }
 
 export interface Api {
+  context: MangoPayContext;
   get<T>(url: string, queryParams?: object): Promise<T>;
   post<Input, Output>(url: string, data: Input): Promise<Output>;
   put<Input, Output>(url: string, data: Input): Promise<Output>;
@@ -26,7 +35,7 @@ export interface Api {
 const version = '2.01'
 
 export function initialize(options: MangoPayOptions) {
-  const { clientId, apiKey, sandbox } = options;
+  const { clientId, apiKey, sandbox, context = {} } = options;
   const domain = sandbox
     ? `https://api.sandbox.mangopay.com/v${version}`
     : `https://api.mangopay.com/v${version}`;
@@ -95,7 +104,7 @@ export function initialize(options: MangoPayOptions) {
     return res.json();
   }
 
-  const api = { get, post, put };
+  const api = { get, post, put, context };
 
   return {
     /** @see: https://docs.mangopay.com/endpoints/v2.01/users */

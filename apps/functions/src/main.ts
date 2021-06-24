@@ -12,7 +12,11 @@ async function getMangoPay() {
     mango = initialize({
       clientId,
       apiKey: key,
-      sandbox: true
+      sandbox: true,
+      context: {
+        currency: 'EUR',
+        lang: 'FR',
+      }
     });
   }
   return mango;
@@ -44,7 +48,6 @@ export const createSeller = europe.https.onCall(async () => {
   const wallet = await mangopay.wallet.create({
     Owners: [user.Id], 
     Description: 'A very cool wallet',
-    Currency: 'EUR',
     Tag: 'Postman create a wallet'
   });
   return { user, wallet };
@@ -111,12 +114,9 @@ export const webpayIn = europe.https.onCall(async(userId: string) => {
   });
 })
 
-export const registerCard = europe.https.onCall(async (userId: string) => {
+export const registerCard = europe.https.onCall(async (UserId: string) => {
   const mangopay = await getMangoPay();
-  return mangopay.card.registration.create({
-    UserId: userId,
-    Currency: 'EUR'
-  });
+  return mangopay.card.registration.create({ UserId });
 });
 
 interface PayWithCard {
@@ -130,14 +130,7 @@ export const payWithCard = europe.https.onCall(async ({data, userId, registratio
   const registration = await mangopay.card.registration.update(registrationId, data);
   const payin = await mangopay.payin.direct.create({
     AuthorId: userId,
-    DebitedFunds: {
-      Currency: 'EUR',
-      Amount: 1000
-    }, 
-    Fees: {  
-      Currency: 'EUR',
-      Amount: 0
-    },
+    DebitedFunds: 1000, 
     CreditedWalletId: '111940438',
     SecureModeReturnURL: 'http://test.com/',
     SecureMode: 'DEFAULT',  
@@ -146,14 +139,8 @@ export const payWithCard = europe.https.onCall(async ({data, userId, registratio
   });
   return mangopay.transfer.create({
     AuthorId: userId,
-    Fees: {
-      Currency: 'EUR',
-      Amount: 100,
-    },
-    DebitedFunds: {
-      Currency: 'EUR',
-      Amount: 1000,
-    },
+    Fees: 100,
+    DebitedFunds: 1000,
     DebitedWalletId: '111940438',
     CreditedUserId: '111891715',
     CreditedWalletId: '111891717',
@@ -166,14 +153,7 @@ export const payout = europe.https.onCall(async ({userId, amount}: { userId: str
   const mangopay = await getMangoPay();
   return mangopay.payout.create({
     AuthorId: userId,
-    DebitedFunds: {
-      Currency: 'EUR',
-      Amount: amount,
-    },
-    Fees: {
-      Currency: 'EUR',
-      Amount: 0
-    },
+    DebitedFunds: amount,
     DebitedWalletId: '111940438',
     BankAccountId: '111891751'
   });

@@ -1,4 +1,4 @@
-import type { Api } from "../mangopay";
+import type { Api, MangoPayContext } from "../mangopay";
 import type { Money, FundsType, CurrencyISO } from "../type";
 
 /**
@@ -20,13 +20,29 @@ interface Wallet {
   Tag?: string;
 }
 
-type CreateWallet = Pick<Wallet, 'Owners' | 'Currency' | 'Description' | 'Tag'>;
 type UpateWallet = Pick<Wallet, 'Id' | 'Description'>;
 
+interface CreateWallet {
+  /**  An array of userIDs of who own's the wallet. For now, you only can set up a unique owner*/
+  Owners: [string];
+  /** A description of the wallet */
+  Description: string;
+  Currency?: CurrencyISO;
+  Tag?: string;
+}
+
+function toWallet(ctx: MangoPayContext, wallet: CreateWallet) {
+  if (!ctx.currency && !wallet.Currency) throw new Error('Missing field "Currency" in Wallet');
+  return {
+    Currency: ctx.currency,
+    ...wallet,
+  }
+}
+
 const baseUrl = 'wallets';
-export const walletApi = ({ post, put, get }: Api) => ({
-  create(data: CreateWallet): Promise<Wallet> {
-    return post(baseUrl, data);
+export const walletApi = ({ context, post, put, get }: Api) => ({
+  create(wallet: CreateWallet): Promise<Wallet> {
+    return post(baseUrl, toWallet(context, wallet));
   },
   update(data: UpateWallet): Promise<Wallet> {
     return put(`${baseUrl}/${data.Id}`, data);

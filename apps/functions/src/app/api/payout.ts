@@ -1,5 +1,6 @@
-import type { Api } from '../mangopay';
+import type { Api, MangoPayContext } from '../mangopay';
 import { Money } from '../type';
+import { toMoney } from '../utils';
 
 type PaymentStatus = 'CREATED' | 'VALIDATED' | 'ERROR';
 type PaymentType = 'BANK_WIRE';
@@ -32,9 +33,9 @@ interface Payout {
 interface CreatePayout {
   AuthorId: string;
   /** Information about the funds that are being debited */
-  DebitedFunds: Money;
+  DebitedFunds: Money | number;
   /** Information about the fees that were taken by the client for this transaction (and were hence transferred to the Client's platform wallet) */
-  Fees: Money;
+  Fees?: Money | number;
   /** The ID of a Bank Account receiving the payout */
   BankAccountId: string;
   /** The ID of the wallet that was debited */
@@ -49,10 +50,19 @@ interface CreatePayout {
   PayoutModeRequested?: 'STANDARD' | 'INSTANT_PAYMENT';
 }
 
+
+function toPayout(ctx: MangoPayContext, payout: CreatePayout) {
+  return {
+    ...payout,
+    DebitedFunds: toMoney(ctx, payout.DebitedFunds),
+    Fees: toMoney(ctx, payout.Fees)
+  }
+}
+
 const baseUrl = 'payouts';
-export const payoutApi = ({ post, put, get }: Api) => ({
-  create(data: CreatePayout): Promise<Payout> {
-    return post(`${baseUrl}/bankwire`, data);
+export const payoutApi = ({ context, post, put, get }: Api) => ({
+  create(payout: CreatePayout): Promise<Payout> {
+    return post(`${baseUrl}/bankwire`, toPayout(context, payout));
   },
   get(id: string): Promise<Payout | undefined> {
     return get(`${baseUrl}/${id}`);
