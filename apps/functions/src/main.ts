@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions';
+import fetch from 'node-fetch';
 import type { MangoPay } from './app/mangopay';
 
 const europe = functions.region('europe-west1');
@@ -19,6 +20,7 @@ async function getMangoPay() {
 
 export const createSeller = europe.https.onCall(async () => {
   const mangopay = await getMangoPay();
+
   const user = await mangopay.user.natural.create({
     FirstName: "Joe",
     LastName: "Blogs",
@@ -126,20 +128,35 @@ interface PayWithCard {
 export const payWithCard = europe.https.onCall(async ({data, userId, registrationId}: PayWithCard) => {
   const mangopay = await getMangoPay();
   const registration = await mangopay.card.registration.update(registrationId, data);
-  return mangopay.payin.direct.create({
+  const payin = await mangopay.payin.direct.create({
     AuthorId: userId,
     DebitedFunds: {
       Currency: 'EUR',
-      Amount: 100
+      Amount: 1000
     }, 
     Fees: {  
       Currency: 'EUR',
       Amount: 0
     },
-    CreditedWalletId: '111947502',
+    CreditedWalletId: '111940438',
     SecureModeReturnURL: 'http://test.com/',
     SecureMode: 'DEFAULT',  
     CardId: registration.CardId,  
     StatementDescriptor: 'Payin'
   });
+  return mangopay.transfer.create({
+    AuthorId: userId,
+    Fees: {
+      Currency: 'EUR',
+      Amount: 100,
+    },
+    DebitedFunds: {
+      Currency: 'EUR',
+      Amount: 1000,
+    },
+    DebitedWalletId: '111940438',
+    CreditedUserId: '111891715',
+    CreditedWalletId: '111891717',
+  });
+
 });

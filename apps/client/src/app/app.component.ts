@@ -65,7 +65,8 @@ export class AppComponent {
         body
       });
       const data = await res.text();
-      await this.runCall('payWithCard', { registrationId: registration.Id, data, userId: uid});
+      const transfer = await this.runCall('payWithCard', { registrationId: registration.Id, data, userId: uid});
+      console.log(transfer);
     } catch (err) {
       console.error(err);
     }

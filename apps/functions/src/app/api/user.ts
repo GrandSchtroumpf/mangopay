@@ -79,7 +79,7 @@ type UpdateLegalUser = WithId<Partial<LegalUser & User>>;
 export const userApi = ({ post, put, get }: Api) => ({
   natural: {
     create(user: CreateNaturalUser): Promise<NaturalUser & User> {
-      return post('users/natural', { ...user, PersonType: 'NATURAL' });
+      return post('users/natural', user);
     },
     update(user: UpdateNaturalUser): Promise<NaturalUser> {
       return put(`users/natural/${user.Id}`, user);

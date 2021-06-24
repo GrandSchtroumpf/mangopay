@@ -1,11 +1,11 @@
 import type { Api } from "../mangopay";
 import { CurrencyISO, Money, FundsType } from "../type";
 
-type TransactionNature = 'REGULAR' | 'REPUDIATION' | 'REFUND' | 'SETTLEMENT';
-type TransactionStatus = 'CREATED' | 'SUCCEEDED' | 'FAILED';
-type TransactionType = 'PAYIN' | 'TRANSFER' | 'PAYOUT';
+export type TransactionNature = 'REGULAR' | 'REPUDIATION' | 'REFUND' | 'SETTLEMENT';
+export type TransactionStatus = 'CREATED' | 'SUCCEEDED' | 'FAILED';
+export type TransactionType = 'PAYIN' | 'TRANSFER' | 'PAYOUT';
 
-interface Transaction {
+export interface Transaction {
   DebitedFunds: Money;
   CreditedFunds: Money;
   Fees: Money;
