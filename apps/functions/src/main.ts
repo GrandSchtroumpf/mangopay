@@ -160,3 +160,21 @@ export const payWithCard = europe.https.onCall(async ({data, userId, registratio
   });
 
 });
+
+
+export const payout = europe.https.onCall(async ({userId, amount}: { userId: string, amount: number }) => {
+  const mangopay = await getMangoPay();
+  return mangopay.payout.create({
+    AuthorId: userId,
+    DebitedFunds: {
+      Currency: 'EUR',
+      Amount: amount,
+    },
+    Fees: {
+      Currency: 'EUR',
+      Amount: 0
+    },
+    DebitedWalletId: '111940438',
+    BankAccountId: '111891751'
+  });
+});

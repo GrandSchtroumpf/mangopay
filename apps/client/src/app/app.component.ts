@@ -10,6 +10,7 @@ import { take } from 'rxjs/operators';
 })
 export class AppComponent {
   userForm = new FormControl();
+  amountForm = new FormControl();
   constructor(private functions: AngularFireFunctions) {}
 
   private runCall(name: string, params?: any) {
@@ -70,5 +71,13 @@ export class AppComponent {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  async payout() {
+    const userId = this.userForm.value.trim();
+    const amount = this.amountForm.value;
+    if (!userId || !amount) return;
+    const payout = await this.runCall('payout', {userId, amount});
+    console.log(payout);
   }
 }

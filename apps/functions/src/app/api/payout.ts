@@ -1,0 +1,60 @@
+import type { Api } from '../mangopay';
+import { Money } from '../type';
+
+type PaymentStatus = 'CREATED' | 'VALIDATED' | 'ERROR';
+type PaymentType = 'BANK_WIRE';
+
+interface Payout {
+  AuthorId: string;
+  BankAccountId: string;
+  BankWireRef: null | string;
+  CreationDate: number;
+  CreditedFunds: Money;
+  CreditedUserId: null | string;
+  CreditedWalletId: null | string;
+  DebitedFunds: Money;
+  DebitedWalletId: string;
+  ExecutionDate: null | number;
+  FallbackReason: null | string;
+  Fees: Money;
+  Id: string;
+  ModeApplied: "PENDING_RESPONSE"
+  ModeRequested: null
+  Nature: "REGULAR"
+  PaymentType: PaymentType;
+  ResultCode: null | string;
+  ResultMessage: null | string;
+  Status: PaymentStatus;
+  Tag: null | string;
+  Type: "PAYOUT"
+}
+
+interface CreatePayout {
+  AuthorId: string;
+  /** Information about the funds that are being debited */
+  DebitedFunds: Money;
+  /** Information about the fees that were taken by the client for this transaction (and were hence transferred to the Client's platform wallet) */
+  Fees: Money;
+  /** The ID of a Bank Account receiving the payout */
+  BankAccountId: string;
+  /** The ID of the wallet that was debited */
+  DebitedWalletId: string;
+  /** A custom reference you wish to appear on the user’s bank statement (your Client Name is already shown). We advise you not to add more than 12 characters. */
+  BankWireRef?: string;
+  /**
+   * Payout mode requested. May take one of the following values:
+   * STANDARD (value by default if no parameter is sent): a standard bank wire is requested and the processing time of the funds is about 48 hours;
+   * INSTANT_PAYMENT: an instant payment bank wire is requested and the processing time is within 25 seconds (subject to prerequisites)
+   */
+  PayoutModeRequested?: 'STANDARD' | 'INSTANT_PAYMENT';
+}
+
+const baseUrl = 'payouts';
+export const payoutApi = ({ post, put, get }: Api) => ({
+  create(data: CreatePayout): Promise<Payout> {
+    return post(`${baseUrl}/bankwire`, data);
+  },
+  get(id: string): Promise<Payout | undefined> {
+    return get(`${baseUrl}/${id}`);
+  },
+});

@@ -8,6 +8,7 @@ import { cardApi } from './api/card';
 import { eventApi } from './api/event';
 import { transactionApi } from './api/transaction';
 import { transferApi } from './api/transfer';
+import { payoutApi } from './api/payout';
 
 
 interface MangoPayOptions {
@@ -115,6 +116,8 @@ export function initialize(options: MangoPayOptions) {
     transaction: transactionApi(api),
     /** @see: https://docs.mangopay.com/endpoints/v2.01/transfers */
     transfer: transferApi(api),
+    /** @see: https://docs.mangopay.com/endpoints/v2.01/payouts */
+    payout: payoutApi(api),
   };
 }
 
