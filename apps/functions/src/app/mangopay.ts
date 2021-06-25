@@ -11,6 +11,8 @@ import { transferApi } from './api/transfer';
 import { payoutApi } from './api/payout';
 import { CountryISO, CurrencyISO, Language } from './type';
 import { hookApi } from './api/hook';
+import { clientApi } from './api/client';
+import { ssoApi } from './api/sso';
 
 
 interface MangoPayOptions {
@@ -117,6 +119,8 @@ export function initialize(options: MangoPayOptions) {
   const api = { context, get, post, put, download };
 
   return {
+    /** @see: https://docs.mangopay.com/endpoints/v2.01/clients */
+    client: clientApi(api),
     /** @see: https://docs.mangopay.com/endpoints/v2.01/users */
     user: userApi(api),
     /** @see: https://docs.mangopay.com/endpoints/v2.01/bank-accounts */
@@ -139,6 +143,8 @@ export function initialize(options: MangoPayOptions) {
     payout: payoutApi(api),
     /** @see: https://docs.mangopay.com/endpoints/v2.01/hooks */
     hook: hookApi(api),
+    /** @see: https://docs.mangopay.com/endpoints/v2.01/sso */
+    sso: ssoApi(api),
   };
 }
 
