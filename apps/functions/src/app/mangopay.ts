@@ -11,7 +11,6 @@ import { transferApi } from './api/transfer';
 import { payoutApi } from './api/payout';
 import { CountryISO, CurrencyISO, Language } from './type';
 import { hookApi } from './api/hook';
-import { emoneyApi } from './api/emoney';
 
 
 interface MangoPayOptions {
@@ -32,6 +31,8 @@ export interface Api {
   get<T>(url: string, queryParams?: object): Promise<T>;
   post<Input, Output>(url: string, data: Input): Promise<Output>;
   put<Input, Output>(url: string, data: Input): Promise<Output>;
+  /** Download a file and transform it into a base64 format */
+  download(file: string): Promise<string>;
 }
 
 const version = '2.01'
@@ -106,7 +107,14 @@ export function initialize(options: MangoPayOptions) {
     return res.json();
   }
 
-  const api = { get, post, put, context };
+  async function download(file: string) {
+    if (file.startsWith('http://') || file.startsWith('https://')) {
+      file = await fetch(file).then(res => res.buffer()).then(buffer => buffer.toString('base64'));
+    }
+    return file;
+  }
+
+  const api = { context, get, post, put, download };
 
   return {
     /** @see: https://docs.mangopay.com/endpoints/v2.01/users */
@@ -131,8 +139,6 @@ export function initialize(options: MangoPayOptions) {
     payout: payoutApi(api),
     /** @see: https://docs.mangopay.com/endpoints/v2.01/hooks */
     hook: hookApi(api),
-    /** @see: https://docs.mangopay.com/endpoints/v2.01/user-emoney */
-    emoney: emoneyApi(api),
   };
 }
 

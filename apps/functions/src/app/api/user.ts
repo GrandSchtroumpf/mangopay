@@ -1,5 +1,5 @@
 import type { Api } from '../mangopay';
-import type { CountryISO, WithId, Address } from '../type';
+import type { CountryISO, WithId, Address, Money, CurrencyISO } from '../type';
 
 
 interface User {
@@ -72,34 +72,54 @@ export interface LegalUser {
   ProofOfRegistration: string;
 }
 
+interface Emoney {
+  UserId: string;
+  CreditedEMoney: Money;
+  DebitedEMoney: Money;
+}
+
+interface EmoneyParams {
+  Year: number;
+  Month?: number;
+  Currency?: CurrencyISO;
+}
+
 
 type CreateNaturalUser = Omit<NaturalUser, 'PersonType' | 'ProofOfIdentity' | 'ProofOfAddress'>;
 type UpdateNaturalUser = WithId<Partial<CreateNaturalUser & User>>;
 type CreateLegalUser = Omit<LegalUser, 'PersonType' | 'ProofOfRegistration' | 'Statute' | 'ShareholderDeclaration'>;
 type UpdateLegalUser = WithId<Partial<LegalUser & User>>;
 
+const baseUrl = 'users';
 export const userApi = ({ post, put, get }: Api) => ({
   natural: {
     create(user: CreateNaturalUser): Promise<NaturalUser & User> {
-      return post('users/natural', user);
+      return post(`${baseUrl}/natural`, user);
     },
     update(user: UpdateNaturalUser): Promise<NaturalUser> {
-      return put(`users/natural/${user.Id}`, user);
+      return put(`${baseUrl}/natural/${user.Id}`, user);
     },
   },
   legal: {
     create(user: CreateLegalUser): Promise<CreateLegalUser & User> {
-      return post('users/legal', user);
+      return post(`${baseUrl}/legal`, user);
     },
     update(user: UpdateLegalUser): Promise<CreateLegalUser & User> {
-      return put(`users/legal/${user.Id}`, user);
+      return put(`${baseUrl}/legal/${user.Id}`, user);
     },
   },
   get(userId: string) {
-    return get<((LegalUser | NaturalUser) & User) | undefined>(`users/${userId}`);
+    return get<((LegalUser | NaturalUser) & User) | undefined>(`${baseUrl}/${userId}`);
   },
   list() {
-    return get<((LegalUser | NaturalUser) & User)[]>('users');
+    return get<((LegalUser | NaturalUser) & User)[]>(baseUrl);
+  },
+  /** @see: https://docs.mangopay.com/endpoints/v2.01/user-emoney */
+  emoney(userId: string, params: EmoneyParams): Promise<Emoney> {
+    const { Year, Month, Currency } = params;
+    const queryParams = Currency ? { Currency } : {};
+    const urlParams = [Year, Month].filter(v => !!v).join('/');
+    return get(`${baseUrl}/${userId}/emoney/${urlParams}`, queryParams);
   }
 })
 

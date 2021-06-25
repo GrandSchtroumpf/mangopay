@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import type { Api } from "../mangopay";
 
 type KycDocumentStatus = 'CREATED' | 'VALIDATION_ASKED' | 'VALIDATED' | 'REFUSED' | 'OUT_OF_DATE';
@@ -34,7 +33,7 @@ interface KycQueryParams {
 }
 
 const baseUrl = (userId: string) => `users/${userId}/kyc/documents`;
-export const kycApi = ({ post, put, get }: Api) => ({
+export const kycApi = ({ post, put, get, download }: Api) => ({
   createDocument(userId: string, data: CreateKycDocument): Promise<KycDocument> {
     return post(baseUrl(userId), data);
   },
@@ -46,11 +45,8 @@ export const kycApi = ({ post, put, get }: Api) => ({
    * @returns 
    */
   async createPage(userId: string, kycDocumentId: string, file: string): Promise<any> {
-    if (file.startsWith('http://') || file.startsWith('https://')) {
-      file = await fetch(file).then(res => res.buffer()).then(buffer => buffer.toString('base64'));
-    }
-    // return { file };
-    return post(`${baseUrl(userId)}/${kycDocumentId}/pages`, { file });
+    const File = await download(file);
+    return post(`${baseUrl(userId)}/${kycDocumentId}/pages`, { File });
   },
   submit(userId: string, kycDocumentId: string): Promise<KycDocument> {
     return put(`${baseUrl(userId)}/${kycDocumentId}`, { Status: "VALIDATION_ASKED" });
