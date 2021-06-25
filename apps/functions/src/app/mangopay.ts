@@ -11,6 +11,7 @@ import { transferApi } from './api/transfer';
 import { payoutApi } from './api/payout';
 import { CountryISO, CurrencyISO, Language } from './type';
 import { hookApi } from './api/hook';
+import { emoneyApi } from './api/emoney';
 
 
 interface MangoPayOptions {
@@ -130,6 +131,8 @@ export function initialize(options: MangoPayOptions) {
     payout: payoutApi(api),
     /** @see: https://docs.mangopay.com/endpoints/v2.01/hooks */
     hook: hookApi(api),
+    /** @see: https://docs.mangopay.com/endpoints/v2.01/user-emoney */
+    emoney: emoneyApi(api),
   };
 }
 

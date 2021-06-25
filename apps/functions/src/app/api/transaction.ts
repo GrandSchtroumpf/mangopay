@@ -6,6 +6,7 @@ export type TransactionStatus = 'CREATED' | 'SUCCEEDED' | 'FAILED';
 export type TransactionType = 'PAYIN' | 'TRANSFER' | 'PAYOUT';
 
 export interface Transaction {
+  Id: string;
   DebitedFunds: Money;
   CreditedFunds: Money;
   Fees: Money;

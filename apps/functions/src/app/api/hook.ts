@@ -6,6 +6,7 @@ type HookValidity = 'UNKNOWN' | 'VALID' | 'INVALID';
 
 interface Hook {
   Id: string;
+  Tag?: string;
   Url: string;
   Status: HookStatus;
   Validity: HookValidity;

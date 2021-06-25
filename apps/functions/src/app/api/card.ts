@@ -5,6 +5,8 @@ type CardValidity = 'UNKNOWN' | 'VALID' | 'INVALID';
 type CardStatus = 'CREATED' | 'VALIDATED' | 'ERROR';
 
 interface CardRegistration {
+  Id: string;
+  Tag?: string;
   UserId: string;
   Currency: CurrencyISO;
   AccessKey: string;
@@ -34,6 +36,8 @@ interface CreateCardRegistration {
 }
 
 interface Card {
+  Id: string;
+  Tag?: string;
   /** The expiry date of the card - must be in format MMYY */
   ExpirationDate: number;
   /** A partially obfuscated version of the credit card number */

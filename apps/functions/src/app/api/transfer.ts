@@ -6,7 +6,7 @@ import type { TransactionNature, TransactionStatus, TransactionType } from './tr
 interface Transfer {
   Id: string;
   CreationDate: number;
-  Tag?: string;
+  Tag: null | string;
   DebitedFunds: Money;
   CreditedFunds?: Money;
   Fees: Money;

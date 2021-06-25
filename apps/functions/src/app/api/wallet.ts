@@ -17,7 +17,7 @@ interface Wallet {
   /** The currency - should be ISO_4217 format */
   Currency: CurrencyISO;
   /** Custom data */
-  Tag?: string;
+  Tag: null | string;
 }
 
 type UpateWallet = Pick<Wallet, 'Id' | 'Description'>;

@@ -11,12 +11,13 @@ interface User {
   /** @see https://docs.mangopay.com/guide/user-verification */
   KYCLevel: 'LIGHT' | 'REGULAR';
   /** Custom data that you can add to this item */
-  Tag?: string;
+  Tag: null | string;
   /** When the item was created */
   CreationDate?: number;
 }
 
 export interface NaturalUser {
+  Tag?: string;
   PersonType: "NATURAL";
   /** The name of the user  */
   FirstName: string;
@@ -50,6 +51,7 @@ export interface NaturalUser {
 }
 
 export interface LegalUser {
+  Tag?: string;
   HeadquartersAddress: Address;
   LegalPersonType: 'BUSINESS' | 'ORGANIZATION' | 'SOLETRADER';
   Name: string;

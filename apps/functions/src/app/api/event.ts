@@ -2,6 +2,7 @@ import type { Api } from "../mangopay";
 import type { EventType } from '../type';
 
 interface Event {
+  Id: string;
   ResourceId: string;
   Date: number;
   EventType: EventType;

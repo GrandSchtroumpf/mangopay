@@ -17,6 +17,7 @@ interface Payin {
 }
 
 interface WebPayin {
+  Id: string;
   /** Custom data that you can add to this item */
   Tag?: string;
   /** A user's ID */
@@ -51,7 +52,7 @@ interface WebPayin {
 }
 
 interface PayinCardDetails {
-  Id: string;
+  Tag?: string;
   PaymentType: 'CARD';
   /** When the transaction happened */
   ExecutionDate: number;
@@ -66,6 +67,7 @@ interface PayinCardDetails {
 }
 
 interface DirectPayin {
+  Tag?: string;
   AuthorId: string;
   CreditedUserId?: string;
   CreditedWalletId: string;
@@ -80,7 +82,6 @@ interface DirectPayin {
   Shipping?: AddressDestination
   IpAddress?: string;
   BrowserInfo?: BrowserInfo;
-  Tag?: string;
 }
 
 

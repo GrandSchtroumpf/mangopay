@@ -1,5 +1,4 @@
 import * as functions from 'firebase-functions';
-import fetch from 'node-fetch';
 import type { MangoPay } from './app/mangopay';
 
 const europe = functions.region('europe-west1');
@@ -30,7 +29,7 @@ export const createSeller = europe.https.onCall(async () => {
     LastName: "Blogs",
     Address: {
       AddressLine1: "1 Mangopay Street",
-      // AddressLine2: "The Loop",
+      AddressLine2: "The Loop",
       City: "Paris",
       Region: "Ile de France",
       PostalCode: "75001",
@@ -136,4 +135,10 @@ export const payout = europe.https.onCall(async ({userId, amount}: { userId: str
     DebitedWalletId: '111940438',
     BankAccountId: '111891751'
   });
+});
+
+
+export const onHook = europe.https.onRequest((req, res) => {
+  console.log(req.params);
+  console.log(req.body);
 });

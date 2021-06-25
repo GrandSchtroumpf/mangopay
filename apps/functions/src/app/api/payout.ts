@@ -6,6 +6,8 @@ type PaymentStatus = 'CREATED' | 'VALIDATED' | 'ERROR';
 type PaymentType = 'BANK_WIRE';
 
 interface Payout {
+  Id: string;
+  Tag: null | string;
   AuthorId: string;
   BankAccountId: string;
   BankWireRef: null | string;
@@ -18,7 +20,6 @@ interface Payout {
   ExecutionDate: null | number;
   FallbackReason: null | string;
   Fees: Money;
-  Id: string;
   ModeApplied: "PENDING_RESPONSE"
   ModeRequested: null
   Nature: "REGULAR"
@@ -26,11 +27,11 @@ interface Payout {
   ResultCode: null | string;
   ResultMessage: null | string;
   Status: PaymentStatus;
-  Tag: null | string;
   Type: "PAYOUT"
 }
 
 interface CreatePayout {
+  Tag?: string;
   AuthorId: string;
   /** Information about the funds that are being debited */
   DebitedFunds: Money | number;
