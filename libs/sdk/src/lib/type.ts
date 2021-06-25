@@ -1,3 +1,28 @@
+/////////
+// API //
+/////////
+export interface MangoPayOptions {
+  clientId: string;
+  apiKey: string;
+  sandbox?: boolean;
+  context?: MangoPayContext;
+}
+
+export interface MangoPayContext {
+  country?: CountryISO;
+  lang?: Language;
+  currency?: CurrencyISO;
+}
+
+export interface Api {
+  context: MangoPayContext;
+  get<T>(url: string, queryParams?: object): Promise<T>;
+  post<Input, Output>(url: string, data: Input): Promise<Output>;
+  put<Input, Output>(url: string, data: Input): Promise<Output>;
+  /** Download a file and transform it into a base64 format */
+  download(file: string): Promise<string>;
+}
+
 ///////////
 // ERROR //
 ///////////
@@ -23,6 +48,7 @@ export interface Money {
   Amount: number;
 }
 export type CardType = 'CB_VISA_MASTERCARD' | 'DINERS' | 'MASTERPASS' | 'AMEX'  | 'MAESTRO' | 'P24' | 'IDEAL' | 'BCMC' | 'PAYLIB';
+export type PaymentType = 'CARD' | 'DIRECT_DEBIT' | 'PREAUTHORIZED' | 'BANK_WIRE';
 
 export interface HooksParams {
   EventType: EventType;

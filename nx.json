@@ -28,6 +28,9 @@
     },
     "functions": {
       "tags": []
+    },
+    "sdk": {
+      "tags": []
     }
   }
 }

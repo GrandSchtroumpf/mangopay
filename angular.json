@@ -206,6 +206,37 @@
           }
         }
       }
+    },
+    "sdk": {
+      "root": "libs/sdk",
+      "sourceRoot": "libs/sdk/src",
+      "projectType": "library",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/workspace:tsc",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/sdk",
+            "main": "libs/sdk/src/index.ts",
+            "tsConfig": "libs/sdk/tsconfig.lib.json",
+            "assets": ["libs/sdk/*.md"]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/sdk/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/sdk"],
+          "options": {
+            "jestConfig": "libs/sdk/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
