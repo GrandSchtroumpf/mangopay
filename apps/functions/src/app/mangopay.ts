@@ -10,6 +10,7 @@ import { transactionApi } from './api/transaction';
 import { transferApi } from './api/transfer';
 import { payoutApi } from './api/payout';
 import { CountryISO, CurrencyISO, Language } from './type';
+import { hookApi } from './api/hook';
 
 
 interface MangoPayOptions {
@@ -127,6 +128,8 @@ export function initialize(options: MangoPayOptions) {
     transfer: transferApi(api),
     /** @see: https://docs.mangopay.com/endpoints/v2.01/payouts */
     payout: payoutApi(api),
+    /** @see: https://docs.mangopay.com/endpoints/v2.01/hooks */
+    hook: hookApi(api),
   };
 }
 

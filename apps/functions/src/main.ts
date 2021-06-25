@@ -30,7 +30,7 @@ export const createSeller = europe.https.onCall(async () => {
     LastName: "Blogs",
     Address: {
       AddressLine1: "1 Mangopay Street",
-      AddressLine2: "The Loop",
+      // AddressLine2: "The Loop",
       City: "Paris",
       Region: "Ile de France",
       PostalCode: "75001",
@@ -92,27 +92,6 @@ export const getKycDocuments = europe.https.onCall(async (userId: string) => {
   return mangopay.kyc.list(userId, { Status: 'CREATED' });
 })
 
-
-export const webpayIn = europe.https.onCall(async(userId: string) => {
-  const mangopay = await getMangoPay();
-  return mangopay.payin.web.create({
-    "Tag": "custom meta",
-    "AuthorId": userId,
-    "DebitedFunds": {
-      "Currency": "EUR",
-      "Amount": 12
-    },
-    "Fees": {
-      "Currency": "EUR",
-      "Amount": 0
-    },
-    "ReturnURL": "http://localhost:4200",
-    "CardType": "CB_VISA_MASTERCARD",
-    "CreditedWalletId": "111891717",
-    "SecureMode": "DEFAULT",
-    "Culture": "EN",
-  });
-})
 
 export const registerCard = europe.https.onCall(async (UserId: string) => {
   const mangopay = await getMangoPay();
