@@ -20,10 +20,10 @@ export interface UpdateHook {
 const baseUrl = 'hooks';
 export const hookApi = ({ get, put, post }: Api) => ({
   create(type: EventType, url: string) {
-    post(baseUrl, { EventType: type, Url: url });
+    return post(baseUrl, { EventType: type, Url: url });
   },
   update(id: string, hook: UpdateHook) {
-    put(`${baseUrl}/${id}`, hook);
+    return put(`${baseUrl}/${id}`, hook);
   },
   get(id: string): Promise<Hook | undefined> {
     return get(`${baseUrl}/${id}`);

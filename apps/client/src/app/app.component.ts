@@ -18,9 +18,29 @@ export class AppComponent {
     return call(params).pipe(take(1)).toPromise();
   }
 
+  async registerHooks() {
+    const res = await this.runCall('registerHook');
+    console.log(res);
+  }
+
   async createSeller() {
-    const { user, wallet } = await this.runCall('createSeller');
-    console.log({user, wallet});
+    const { user, wallet } = await this.runCall('createSeller', {
+      FirstName: "Joe",
+      LastName: "Blogs",
+      Address: {
+        AddressLine1: "1 Mangopay Street",
+        City: "Paris",
+        Region: "Ile de France",
+        PostalCode: "75001",
+        Country: "FR"
+      },
+      Birthday: new Date(1950, 1, 1),
+      Nationality: "GB",
+      CountryOfResidence: "FR",
+      Occupation: "Carpenter",
+      IncomeRange: 2,
+      Email: "test@mangopay.com"
+    });
     this.userForm.setValue(user.Id);
   }
 

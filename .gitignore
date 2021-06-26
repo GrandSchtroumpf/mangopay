@@ -44,3 +44,4 @@ Thumbs.db
 # runtime
 .runtimeconfig.json
 **/*/.runtimeconfig.json
+secret.ts

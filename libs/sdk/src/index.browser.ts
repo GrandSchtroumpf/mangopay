@@ -1,6 +1,8 @@
-import { MangoPayOptions } from './type';
-import { getMangoPayApi } from './api';
-import { apiVersion } from './utils';
+import { MangoPayOptions } from './lib/type';
+import { getMangoPayApi } from './lib/api';
+import { apiVersion } from './lib/utils';
+
+export * from './lib';
 
 export function initialize(options: MangoPayOptions) {
   const { clientId, apiKey, sandbox, context = {} } = options;

@@ -213,12 +213,13 @@
       "projectType": "library",
       "architect": {
         "build": {
-          "builder": "@nrwl/workspace:tsc",
+          "builder": "@nrwl/node:package",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/libs/sdk",
-            "main": "libs/sdk/src/index.ts",
+            "main": "libs/sdk/src/index.node.ts",
             "tsConfig": "libs/sdk/tsconfig.lib.json",
+            "packageJson": "libs/sdk/package.json",
             "assets": ["libs/sdk/*.md"]
           }
         },

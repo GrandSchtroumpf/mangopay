@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@mangopay/sdk": ["libs/sdk/src/index.ts"]
+      "@secret": ["secret.ts"],
+      "@mangopay/sdk": ["libs/sdk/src/index.node.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

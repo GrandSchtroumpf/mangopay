@@ -16,3 +16,49 @@ export function toMoney(ctx: MangoPayContext, money?: Money | number): Money {
   }
   return money;
 }
+
+export function toTimestamp(date: Date): number {
+  if (date instanceof Date) return date.getTime() / 1000;
+  if (typeof date === 'string') return new Date(date).getTime() / 1000;
+  return date / 1000;
+}
+
+export function fromTimestamp(timestamp: number) {
+  return new Date(timestamp * 1000);
+}
+
+export interface Converter<T> {
+  date?: (keyof T)[];
+  money?: (keyof T)[];
+}
+
+export function toMangoPay<T>(origin: T, converter: Converter<T>) {
+  const transform: Partial<{ [keys in keyof T]: number | Money }> = {};
+  if (converter.date) {
+    for (const key of converter.date) {
+      if (origin[key]) transform[key] = toTimestamp(origin[key] as any);
+    }
+  }
+  if (converter.money) {
+    for (const key of converter.money) {
+      if (origin[key]) transform[key] = toMoney(origin[key]);
+    }
+  }
+  return {
+    ...origin,
+    ...transform,
+  }
+}
+
+export function fromMangoPay<T>(origin: T, converter: Converter<T>): T {
+  const transform: Partial<{ [keys in keyof T]: Date }> = {};
+  if (converter.date) {
+    for (const key of converter.date) {
+      if (origin[key]) transform[key] = fromTimestamp(origin[key] as any);
+    }
+  }
+  return {
+    ...origin,
+    ...transform,
+  }
+}

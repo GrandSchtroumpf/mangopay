@@ -26,18 +26,18 @@ export interface Api {
 ///////////
 // ERROR //
 ///////////
-export type ErrorType = 'ressource_not_found';
+export type ErrorType = 'ressource_not_found' | 'rate_limit';
 
 export interface ErrorResponse {
   Id: string;
   Message: string;
   Type: ErrorType;
   Date: number;
-  errors: Record<string, string>;
+  errors: null | Record<string, string>;
 }
 
 
-
+export type Timestamp = Date | number;
 export type WithId<T> = { Id: string } & Partial<T>;
 export type ClientFundsType = "FEES" | "CREDIT";
 export type FundsType = "DEFAULT" | ClientFundsType;

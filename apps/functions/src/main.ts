@@ -1,12 +1,12 @@
 import * as functions from 'firebase-functions';
-import type { MangoPay } from './app/mangopay';
+import type { MangoPay, NaturalUser } from '@mangopay/sdk';
 
 const europe = functions.region('europe-west1');
 
 let mango: MangoPay;
 async function getMangoPay() {
   if (!mango) {
-    const { initialize } = await import('./app/mangopay');
+    const { initialize } = await import('@mangopay/sdk');
     const { clientId, key } = functions.config().mangopay;
     mango = initialize({
       clientId,
@@ -21,27 +21,14 @@ async function getMangoPay() {
   return mango;
 }
 
-export const createSeller = europe.https.onCall(async () => {
+export const registerHook = europe.https.onCall(async () => {
   const mangopay = await getMangoPay();
+  return mangopay.hook.create('PAYIN_NORMAL_CREATED', 'http://localhost:5001/veggiemarket-5237c/europe-west1/onHook)')
+})
 
-  const user = await mangopay.user.natural.create({
-    FirstName: "Joe",
-    LastName: "Blogs",
-    Address: {
-      AddressLine1: "1 Mangopay Street",
-      AddressLine2: "The Loop",
-      City: "Paris",
-      Region: "Ile de France",
-      PostalCode: "75001",
-      Country: "FR"
-    },
-    Birthday: 1463496101,
-    Nationality: "GB",
-    CountryOfResidence: "FR",
-    Occupation: "Carpenter",
-    IncomeRange: 2,
-    Email: "test@mangopay.com"
-  });
+export const createSeller = europe.https.onCall(async (data: NaturalUser) => {
+  const mangopay = await getMangoPay();
+  const user = await mangopay.user.natural.create(data);
 
   // wallet
   const wallet = await mangopay.wallet.create({
