@@ -1,3 +1,30 @@
 {
+  "bank": {
+    "account": "Missing value for 'bank.account'",
+    "owner": {
+      "label": "Missing value for 'bank.owner.label'",
+      "placeholder": "Missing value for 'bank.owner.placeholder'",
+      "hint": "Missing value for 'bank.owner.hint'",
+      "required": "Missing value for 'bank.owner.required'"
+    },
+    "iban": {
+      "label": "Missing value for 'bank.iban.label'",
+      "placeholder": "Missing value for 'bank.iban.placeholder'",
+      "hint": "Missing value for 'bank.iban.hint'",
+      "required": "Missing value for 'bank.iban.required'"
+    },
+    "bic": {
+      "label": "Missing value for 'bank.bic.label'",
+      "placeholder": "Missing value for 'bank.bic.placeholder'",
+      "hint": "Missing value for 'bank.bic.hint'",
+      "required": "Missing value for 'bank.bic.required'"
+    },
+    "useUserAddress": "Missing value for 'bank.useUserAddress'",
+    "tag": {
+      "label": "Missing value for 'bank.tag.label'",
+      "placeholder": "Missing value for 'bank.tag.placeholder'",
+      "hint": "Missing value for 'bank.tag.hint'"
+    }
+  },
   "option": "Missing value for 'option'"
 }

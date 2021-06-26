@@ -1,6 +1,7 @@
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
+@use 'sass:map';
 @use '~@angular/material' as mat;
 // Plus imports for other components in your app.
 
@@ -37,3 +38,15 @@ $client-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$config: mat.get-color-config($client-theme);
+$background: map.get($config, 'background');
+$foreground: map.get($config, 'foreground');
+
+$card: mat.get-color-from-palette($background, 'card');
+$divider: mat.get-color-from-palette($foreground, 'divider');
+fieldset {
+  border-radius: 4px;
+  border: solid 1px $divider;
+  background-color: $card;
+}

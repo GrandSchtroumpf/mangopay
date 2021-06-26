@@ -10,6 +10,7 @@ export * from './transaction';
 export * from './transfer';
 export * from './user';
 export * from './wallet';
+export * from './bank';
 
 import { userApi } from './user';
 import { walletApi } from './wallet';

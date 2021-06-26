@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
+import type { CreateNaturalUser } from '@mangopay/sdk';
 import { TranslocoService, TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormNaturalUser } from './natural-user.form';
 
@@ -14,12 +15,33 @@ import { FormNaturalUser } from './natural-user.form';
   }]
 })
 export class NaturalUserComponent {
-  form = new FormNaturalUser();
   incomeRanges = [1, 2, 3, 4, 5, 6];
+  @Input() form: FormNaturalUser = new FormNaturalUser();
+  @Output() save = new EventEmitter<CreateNaturalUser>();
+  @Output() reset = new EventEmitter<CreateNaturalUser>();
+
   constructor(
-    transloco: TranslocoService,
-    dateAdapter: DateAdapter<any>,
+    private transloco: TranslocoService,
+    private dateAdapter: DateAdapter<any>,
   ) {
-    dateAdapter.setLocale(transloco.getActiveLang());
+
+  }
+
+  ngOnInit() {
+    const lang = this.transloco.getActiveLang();
+    this.dateAdapter.setLocale(lang);
+    this.form.patchValue({
+      Nationality: lang.toUpperCase(),
+      CountryOfResidence: lang.toUpperCase(),
+      Address: {
+        Country: lang.toUpperCase()
+      }
+    });
+  }
+
+  submit() {
+    this.save.emit(this.form.value);
+    if (this.form.valid) {
+    }
   }
 }

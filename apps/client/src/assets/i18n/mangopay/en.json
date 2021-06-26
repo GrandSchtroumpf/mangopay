@@ -1,5 +1,6 @@
 {
   "address": {
+    "legend": "Missing value for 'mangopay.address.legend'",
     "addressLine1": {
       "label": "Missing value for 'mangopay.address.addressLine1.label'",
       "placeholder": "Missing value for 'mangopay.address.addressLine1.placeholder'",
@@ -26,6 +27,33 @@
     "country": {
       "label": "Missing value for 'mangopay.address.country.label'"
     }
+  },
+  "bank": {
+    "account": "Compte Bancaire",
+    "owner": {
+      "label": "Nom du propriétaire",
+      "placeholder": " ",
+      "hint": " ",
+      "required": "Cette information est obligatoire"
+    },
+    "iban": {
+      "label": "IBAN",
+      "placeholder": " ",
+      "hint": " ",
+      "required": "Veuillez renseigner l'IBAN"
+    },
+    "bic": {
+      "label": "BIC",
+      "placeholder": " ",
+      "hint": " ",
+      "required": "Veuillez renseigner le BIC"
+    },
+    "tag": {
+      "label": "Missing value for 'mangopay.bank.tag.label'",
+      "placeholder": "Missing value for 'mangopay.bank.tag.placeholder'",
+      "hint": "Missing value for 'mangopay.bank.tag.hint'"
+    },
+    "useUserAddress": "Utiliser votre adresse ?"
   },
   "country": {
     "AD": "Missing value for 'mangopay.country.AD'",
@@ -443,6 +471,7 @@
     "ZWD": "Missing value for 'mangopay.currency.ZWD'"
   },
   "naturalUser": {
+    "personal": "Missing value for 'mangopay.naturalUser.personal'",
     "firstName": {
       "label": "Missing value for 'mangopay.naturalUser.firstName.label'",
       "placeholder": "Missing value for 'mangopay.naturalUser.firstName.placeholder'",
@@ -454,6 +483,12 @@
       "placeholder": "Missing value for 'mangopay.naturalUser.lastName.placeholder'",
       "hint": "Missing value for 'mangopay.naturalUser.lastName.hint'",
       "required": "Missing value for 'mangopay.naturalUser.lastName.required'"
+    },
+    "email": {
+      "label": "Missing value for 'mangopay.naturalUser.email.label'",
+      "placeholder": "Missing value for 'mangopay.naturalUser.email.placeholder'",
+      "hint": "Missing value for 'mangopay.naturalUser.email.hint'",
+      "required": "Missing value for 'mangopay.naturalUser.email.required'"
     },
     "birthday": {
       "label": "Missing value for 'mangopay.naturalUser.birthday.label'",
@@ -467,6 +502,7 @@
     "residence": {
       "label": "Missing value for 'mangopay.naturalUser.residence.label'"
     },
+    "professional": "Missing value for 'mangopay.naturalUser.professional'",
     "occupation": {
       "label": "Missing value for 'mangopay.naturalUser.occupation.label'",
       "placeholder": "Missing value for 'mangopay.naturalUser.occupation.placeholder'",
@@ -481,6 +517,8 @@
       "6": ">120K€",
       "label": "Missing value for 'mangopay.naturalUser.incomeRange.label'",
       "hint": "Missing value for 'mangopay.naturalUser.incomeRange.hint'"
-    }
+    },
+    "cancel": "Missing value for 'mangopay.naturalUser.cancel'",
+    "submit": "Missing value for 'mangopay.naturalUser.submit'"
   }
 }

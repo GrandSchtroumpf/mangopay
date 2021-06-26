@@ -5,13 +5,15 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { NaturalUserComponent } from './natural-user.component';
 
 import { AddressFormModule } from '../address/address.module';
+import { CountryFormModule } from '../country/country.module';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { CountryFormModule } from '../country/country.module';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [NaturalUserComponent],
@@ -28,6 +30,7 @@ import { CountryFormModule } from '../country/country.module';
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatButtonModule,
   ]
 })
 export class NaturalUserModule { }

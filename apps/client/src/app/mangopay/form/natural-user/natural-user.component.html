@@ -1,54 +1,73 @@
 <ng-container *transloco="let t; read: 'mangopay.naturalUser'">
-  <form [formGroup]="form">
-    <div class="names">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <fieldset>
+      <legend>{{ t('personal') }}</legend>
+      <div class="names">
+        <mat-form-field>
+          <mat-label>{{ t('firstName.label') }}</mat-label>
+          <input matInput formControlName="FirstName" [placeholder]="t('firstName.placeholder')" required />
+          <mat-hint>{{ t('firstName.hint') }}</mat-hint>
+          <mat-error>{{ t('firstName.required') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ t('lastName.label') }}</mat-label>
+          <input matInput formControlName="LastName" [placeholder]="t('lastName.placeholder')" required />
+          <mat-hint>{{ t('lastName.hint') }}</mat-hint>
+          <mat-error>{{ t('lastName.required') }}</mat-error>
+        </mat-form-field>
+      </div>
       <mat-form-field>
-        <mat-label>{{ t('firstName.label') }}</mat-label>
-        <input matInput formControlName="FirstName" [placeholder]="t('firstName.placeholder')" required />
-        <mat-hint>{{ t('firstName.hint') }}</mat-hint>
-        <mat-error>{{ t('firstName.required') }}</mat-error>
+        <mat-label>{{ t('email.label') }}</mat-label>
+        <input matInput type="email" formControlName="Email" [placeholder]="t('email.placeholder')" required />
+        <mat-hint>{{ t('email.hint') }}</mat-hint>
+        <mat-error>{{ t('email.required') }}</mat-error>
       </mat-form-field>
+      <!-- Birthday -->
       <mat-form-field>
-        <mat-label>{{ t('lastName.label') }}</mat-label>
-        <input matInput formControlName="LastName" [placeholder]="t('lastName.placeholder')" required />
-        <mat-hint>{{ t('lastName.hint') }}</mat-hint>
-        <mat-error>{{ t('lastName.required') }}</mat-error>
+        <mat-label>{{ t('birthday.label') }}</mat-label>
+        <input matInput [matDatepicker]="dp" formControlName="Birthday" [placeholder]="t('birthday.placeholder')" required>
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+        <mat-hint>{{ t('birthday.hint') }}</mat-hint>
+        <mat-error>{{ t('birthday.required') }}</mat-error>
       </mat-form-field>
-    </div>
-    <!-- Birthday -->
-    <mat-form-field>
-      <mat-label>{{ t('birthday.label') }}</mat-label>
-      <input matInput [matDatepicker]="dp" formControlName="Birthday" [placeholder]="t('birthday.placeholder')" required>
-      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-      <mat-datepicker #dp></mat-datepicker>
-      <mat-hint>{{ t('birthday.hint') }}</mat-hint>
-      <mat-error>{{ t('birthday.required') }}</mat-error>
-    </mat-form-field>
-    <!-- Nationality -->
-    <country-form [form]="form.get('Nationality')">
-      <mat-label>{{ t('nationality.label') }}</mat-label>
-    </country-form>
-    <!-- CountryOfResidence -->
-    <country-form [form]="form.get('CountryOfResidence')">
-      <mat-label>{{ t('residence.label') }}</mat-label>
-    </country-form>
+      <!-- Nationality -->
+      <country-form name="Nationality" required>
+        <mat-label>{{ t('nationality.label') }}</mat-label>
+        <mat-error>Hello</mat-error>
+      </country-form>
+      <!-- CountryOfResidence -->
+      <country-form name="CountryOfResidence" required>
+        <mat-label>{{ t('residence.label') }}</mat-label>
+      </country-form>
+    </fieldset>
+
     <!-- Address -->
-    <address-form></address-form>
-    <!-- Occupation -->
-    <mat-form-field>
-      <mat-label>{{ t('occupation.label') }}</mat-label>
-      <input matInput formControlName="Occupation" [placeholder]="t('occupation.placeholder')" required />
-      <mat-hint>{{ t('occupation.hint') }}</mat-hint>
-    </mat-form-field>
-    <!-- IncomeRange -->
-    <mat-form-field>
-      <mat-label>{{ t('incomeRange.label') }}</mat-label>
-      <mat-select formControlName="IncomeRange">
-        <mat-option *ngFor="let range of incomeRanges" [value]="range">
-          <!-- t(incomeRange.1, incomeRange.2, incomeRange.3, incomeRange.4, incomeRange.5, incomeRange.6) -->
-          {{ t('incomeRange.' + range) }}
-        </mat-option>
-      </mat-select>
-      <mat-hint>{{ t('incomeRange.hint') }}</mat-hint>
-    </mat-form-field>
+    <address-form name="Address"></address-form>
+
+    <fieldset>
+      <legend>{{ t('professional') }}</legend>
+      <!-- Occupation -->
+      <mat-form-field>
+        <mat-label>{{ t('occupation.label') }}</mat-label>
+        <input matInput formControlName="Occupation" [placeholder]="t('occupation.placeholder')" />
+        <mat-hint>{{ t('occupation.hint') }}</mat-hint>
+      </mat-form-field>
+      <!-- IncomeRange -->
+      <mat-form-field>
+        <mat-label>{{ t('incomeRange.label') }}</mat-label>
+        <mat-select formControlName="IncomeRange">
+          <mat-option *ngFor="let range of incomeRanges" [value]="range">
+            <!-- t(incomeRange.1, incomeRange.2, incomeRange.3, incomeRange.4, incomeRange.5, incomeRange.6) -->
+            {{ t('incomeRange.' + range) }}
+          </mat-option>
+        </mat-select>
+        <mat-hint>{{ t('incomeRange.hint') }}</mat-hint>
+      </mat-form-field>
+    </fieldset>
+    <footer>
+      <button mat-button type="reset" (click)="reset.emit(form.value)">{{ t('cancel') }}</button>
+      <button mat-flat-button color="primary" type="submit">{{ t('submit') }}</button>
+    </footer>
   </form>
 </ng-container>

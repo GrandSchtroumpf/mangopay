@@ -1,5 +1,6 @@
 {
   "address": {
+    "legend": "Adresse",
     "addressLine1": {
       "label": "Adresse",
       "placeholder": " ",
@@ -26,6 +27,33 @@
     "country": {
       "label": "Pays"
     }
+  },
+  "bank": {
+    "account": "Compte Bancaire",
+    "owner": {
+      "label": "Nom du propriétaire",
+      "placeholder": " ",
+      "hint": " ",
+      "required": "Cette information est obligatoire"
+    },
+    "iban": {
+      "label": "IBAN",
+      "placeholder": " ",
+      "hint": " ",
+      "required": "Veuillez renseigner l'IBAN"
+    },
+    "bic": {
+      "label": "BIC",
+      "placeholder": " ",
+      "hint": " ",
+      "required": "Veuillez renseigner le BIC"
+    },
+    "tag": {
+      "label": "Nom du compte",
+      "placeholder": "Compte pro",
+      "hint": "Ce nom est utile pour différencier entre plusieurs comptes"
+    },
+    "useUserAddress": "Utiliser votre adresse ?"
   },
   "country": {
     "AD": "Andorre",
@@ -443,6 +471,7 @@
     "ZWD": "Missing value for 'mangopay.currency.ZWD'"
   },
   "naturalUser": {
+    "personal": "Informations personelles",
     "firstName": {
       "label": "Prénom",
       "placeholder": " ",
@@ -455,6 +484,12 @@
       "hint": " ",
       "required": "Le nom de famille est obligatoire"
     },
+    "email": {
+      "label": "email",
+      "placeholder": " ",
+      "hint": " ",
+      "required": "L'email est obligatoire"
+    },
     "birthday": {
       "label": "Date de naissance",
       "placeholder": "JJ/MM/AAAA",
@@ -462,11 +497,12 @@
       "required": "La date de naissance est obligatoire"
     },
     "nationality": {
-      "label": "Missing value for 'mangopay.naturalUser.nationality.label'"
+      "label": "Nationalité"
     },
     "residence": {
-      "label": "Missing value for 'mangopay.naturalUser.residence.label'"
+      "label": "Pays de résidence"
     },
+    "professional": "Informations professionelles",
     "occupation": {
       "label": "Profession",
       "placeholder": " ",
@@ -481,6 +517,8 @@
       "6": ">120K€",
       "label": "Revenue annuel",
       "hint": " "
-    }
+    },
+    "cancel": "Annuler",
+    "submit": "Enregistrer"
   }
 }

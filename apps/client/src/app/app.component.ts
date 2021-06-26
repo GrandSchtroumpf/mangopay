@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { FormControl } from '@angular/forms';
+import type { CreateNaturalUser } from '@mangopay/sdk';
 import { take } from 'rxjs/operators';
+import { FormNaturalUser } from './mangopay/form/natural-user/natural-user.form';
 
 @Component({
   selector: 'mangopay-root',
@@ -9,7 +11,8 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  userForm = new FormControl();
+
+  userForm = new FormNaturalUser();
   amountForm = new FormControl();
   constructor(private functions: AngularFireFunctions) {}
 
@@ -18,10 +21,11 @@ export class AppComponent {
     return call(params).pipe(take(1)).toPromise();
   }
 
-  async registerHooks() {
-    const res = await this.runCall('registerHook');
+  async createUser(user: CreateNaturalUser) {
+    const res = await this.runCall('createSeller', user);
     console.log(res);
   }
+
 
   async createSeller() {
     const { user, wallet } = await this.runCall('createSeller', {

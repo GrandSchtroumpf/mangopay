@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
 import { NaturalUserModule } from './mangopay/form/natural-user/natural-user.module';
+import { BankIbanModule } from './mangopay/form/bank-iban/bank-iban.module';
 
 // Specific config for emulators
 const FIREBASE_EMUTLATORS = environment.useEmulators
@@ -41,6 +42,7 @@ const FIREBASE_EMUTLATORS = environment.useEmulators
     HttpClientModule,
     TranslocoRootModule,
     NaturalUserModule,
+    BankIbanModule,
   ],
   providers: [
     { provide: REGION, useValue: 'europe-west1' },

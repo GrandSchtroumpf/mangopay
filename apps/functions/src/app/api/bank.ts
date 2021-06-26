@@ -32,7 +32,7 @@ interface IbanAccount extends BankAccountBase {
   BIC?: string;
 }
 
-type CreateIbanAccount = Pick<IbanAccount, 'Type' | 'OwnerName' | 'OwnerAddress' | 'IBAN' | 'BIC' | 'Tag'>;
+type CreateIbanAccount = Pick<IbanAccount, 'OwnerName' | 'OwnerAddress' | 'IBAN' | 'BIC' | 'Tag'>;
 
 type BankAccount = IbanAccount;
 

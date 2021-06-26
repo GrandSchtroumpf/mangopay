@@ -1,9 +1,23 @@
-:host {
-  display: flex;
-  flex-direction: column;
+form {
+  display: grid;
+  gap: 16px;
 }
+
+mat-form-field {
+  display: block;
+}
+
 .names {
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(2, 1fr);
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  :last-child {
+    margin-left: 16px;
+  }
 }
