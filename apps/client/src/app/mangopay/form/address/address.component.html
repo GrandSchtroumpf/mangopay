@@ -1,0 +1,55 @@
+<ng-container *transloco="let t; read: 'mangopay.address'">
+  <fieldset [formGroup]="form">
+    <!-- addressLine1 -->
+    <mat-form-field>
+      <mat-label>{{ t('addressLine1.label') }}</mat-label>
+      <input
+        matInput
+        formControlName="AddressLine1"
+        [placeholder]="t('addressLine1.placeholder')"
+        required
+      />
+      <mat-hint>{{ t('addressLine1.hint') }}</mat-hint>
+      <mat-error>{{ t('addressLine1.required') }}</mat-error>
+    </mat-form-field>
+    <!-- addressLine2 -->
+    <mat-form-field>
+      <mat-label>{{ t('addressLine2.label') }}</mat-label>
+      <input
+        matInput
+        formControlName="AddressLine2"
+        [placeholder]="t('addressLine2.placeholder')"
+      />
+      <mat-hint>{{ t('addressLine2.hint') }}</mat-hint>
+    </mat-form-field>
+    <!-- city -->
+    <mat-form-field>
+      <mat-label>{{ t('city.label') }}</mat-label>
+      <input
+        matInput
+        formControlName="City"
+        [placeholder]="t('city.placeholder')"
+        required
+      />
+      <mat-hint>{{ t('city.hint') }}</mat-hint>
+      <mat-error>{{ t('city.required') }}</mat-error>
+    </mat-form-field>
+    <!-- postal code -->
+    <mat-form-field>
+      <mat-label>{{ t('postalCode.label') }}</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="PostalCode"
+        [placeholder]="t('postalCode.placeholder')"
+        required
+      />
+      <mat-hint>{{ t('postalCode.hint') }}</mat-hint>
+      <mat-error>{{ t('postalCode.required') }}</mat-error>
+    </mat-form-field>
+    <!-- country -->
+    <country-form [form]="form.get('Country')">
+      <mat-label>{{ t('country.label') }}</mat-label>
+    </country-form>
+  </fieldset>
+</ng-container>

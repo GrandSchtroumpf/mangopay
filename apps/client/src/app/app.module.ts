@@ -14,6 +14,10 @@ import {
   REGION,
 } from '@angular/fire/functions';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslocoRootModule } from './transloco-root.module';
+import { NaturalUserModule } from './mangopay/form/natural-user/natural-user.module';
 
 // Specific config for emulators
 const FIREBASE_EMUTLATORS = environment.useEmulators
@@ -32,7 +36,11 @@ const FIREBASE_EMUTLATORS = environment.useEmulators
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireFunctionsModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    TranslocoRootModule,
+    NaturalUserModule,
   ],
   providers: [
     { provide: REGION, useValue: 'europe-west1' },

@@ -35,7 +35,7 @@ export interface NaturalUser {
   Occupation?: string;
   /** 
    * Could be only one of these values:
-   * 1 - for incomes <18K€)
+   * 1 - for incomes <18K€
    * 2 - for incomes between 18 and 30K€
    * 3 - for incomes between 30 and 50K€
    * 4 - for incomes between 50 and 80K€
@@ -85,10 +85,10 @@ export interface EmoneyParams {
 }
 
 
-type CreateNaturalUser = Omit<NaturalUser, 'PersonType' | 'ProofOfIdentity' | 'ProofOfAddress'>;
-type UpdateNaturalUser = WithId<Partial<CreateNaturalUser & User>>;
-type CreateLegalUser = Omit<LegalUser, 'PersonType' | 'ProofOfRegistration' | 'Statute' | 'ShareholderDeclaration'>;
-type UpdateLegalUser = WithId<Partial<LegalUser & User>>;
+export type CreateNaturalUser = Omit<NaturalUser, 'PersonType' | 'ProofOfIdentity' | 'ProofOfAddress'>;
+export type UpdateNaturalUser = WithId<Partial<CreateNaturalUser & User>>;
+export type CreateLegalUser = Omit<LegalUser, 'PersonType' | 'ProofOfRegistration' | 'Statute' | 'ShareholderDeclaration'>;
+export type UpdateLegalUser = WithId<Partial<LegalUser & User>>;
 
 ///////////////
 // CONVERTER //
