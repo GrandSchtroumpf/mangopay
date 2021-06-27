@@ -6,6 +6,7 @@ export interface MangoPayOptions {
   apiKey: string;
   sandbox?: boolean;
   context?: MangoPayContext;
+  errorHandler?: ErrorHandler;
 }
 
 export interface MangoPayContext {
@@ -26,9 +27,10 @@ export interface Api {
 ///////////
 // ERROR //
 ///////////
-export type ErrorType = 'ressource_not_found' | 'rate_limit';
+export type ErrorHandler = (error: MangoPayError, status: number) => unknown;
+export type ErrorType = 'ressource_not_found' | 'rate_limit' | 'param_error';
 
-export interface ErrorResponse {
+export interface MangoPayError {
   Id: string;
   Message: string;
   Type: ErrorType;

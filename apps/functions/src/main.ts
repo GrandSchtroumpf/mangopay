@@ -1,7 +1,13 @@
 import * as functions from 'firebase-functions';
-import type { MangoPay, NaturalUser } from '@mangopay/sdk';
+import type { ErrorHandler, MangoPay, NaturalUser } from '@mangopay/sdk';
+
 
 const europe = functions.region('europe-west1');
+
+const errorHandler: ErrorHandler = (err) => {
+  console.log('ErrorHandler', err);
+  throw new functions.https.HttpsError('invalid-argument', err.Message, err.errors);
+}
 
 let mango: MangoPay;
 async function getMangoPay() {
@@ -15,7 +21,8 @@ async function getMangoPay() {
       context: {
         currency: 'EUR',
         lang: 'FR',
-      }
+      },
+      errorHandler
     });
   }
   return mango;
@@ -39,25 +46,14 @@ export const createSeller = europe.https.onCall(async (data: NaturalUser) => {
   return { user, wallet };
 });
 
-export const addBank = europe.https.onCall(async (userId: string) => {
+export const getUser = europe.https.onCall(async (userId: string) => {
   const mangopay = await getMangoPay();
+  return mangopay.user.get(userId);
+})
 
-  // Bank account
-  return mangopay.bankAccount.createIban(userId, {
-    Type: 'IBAN',
-    OwnerName: 'Cyrano de Bergerac',
-    OwnerAddress: {
-      AddressLine1:'Street 7',
-      AddressLine2: '',
-      City: 'Paris',  
-      Region: 'Ile de Frog',
-      PostalCode:'75010',
-      Country:'FR'
-    },
-    IBAN: 'FR7630004000031234567890143',
-    BIC: 'BNPAFRPP',
-    Tag: 'Postman create a bank account'
-  });
+export const addBank = europe.https.onCall(async ({userId, bankAccount }) => {
+  const mangopay = await getMangoPay();
+  return mangopay.bankAccount.createIban(userId, bankAccount);
 });
 
 

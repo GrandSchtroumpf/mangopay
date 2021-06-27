@@ -1,0 +1,11 @@
+<mat-stepper #stepper>
+  <mat-step [stepControl]="userForm">
+    <natural-user-form [form]="userForm" (save)="createUser($event)"></natural-user-form>
+  </mat-step>
+  <mat-step [stepControl]="bankForm">
+    <bank-iban-form [form]="bankForm" (save)="createBank($event)"></bank-iban-form>
+  </mat-step>
+  <mat-step>
+    <mango-kyc-form></mango-kyc-form>
+  </mat-step>
+</mat-stepper>

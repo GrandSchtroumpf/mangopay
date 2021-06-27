@@ -1,5 +1,5 @@
 <ng-container *transloco="let t; read: 'mangopay.bank'">
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="submit()">
     <fieldset>
       <legend>{{ t('account') }}</legend>
       <mat-form-field>
@@ -10,15 +10,14 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>{{ t('iban.label') }}</mat-label>
-        <input matInput formControlName="IBAN" [placeholder]="t('iban.placeholder')" required/>
+        <input matInput formControlName="IBAN" [placeholder]="t('iban.placeholder')" required [pattern]="ibanPattern"/>
         <mat-hint>{{ t('iban.hint') }}</mat-hint>
         <mat-error>{{ t('iban.required') }}</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>{{ t('bic.label') }}</mat-label>
-        <input matInput formControlName="BIC" [placeholder]="t('bic.placeholder')" required/>
+        <input matInput formControlName="BIC" [placeholder]="t('bic.placeholder')" [pattern]="bicPattern"/>
         <mat-hint>{{ t('bic.hint') }}</mat-hint>
-        <mat-error>{{ t('bic.required') }}</mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>{{ t('tag.label') }}</mat-label>
@@ -27,21 +26,11 @@
       </mat-form-field>
     </fieldset>
     
-    <mat-slide-toggle [formControl]="useUserAddress">
-      {{ t('useUserAddress') }}
-    </mat-slide-toggle>
+    <address-form name="OwnerAddress" required></address-form>
 
-    <ng-container *ngIf="!useUserAddress.value">
-      <address-form name="OwnerAddress"></address-form>
-    </ng-container>
-
+    <footer>
+      <button mat-button type="reset" (click)="reset.emit(form.value)">{{ t('cancel') }}</button>
+      <button mat-flat-button color="primary" type="submit">{{ t('submit') }}</button>
+    </footer>
   </form>
 </ng-container>
-
-<!--
-    IBAN: new FormControl(bankAccount.IBAN, Validators.required),
-  BIC: new FormCountry(bankAccount.BIC),
-  OwnerName: new FormControl(bankAccount.OwnerName, Validators.required),
-  OwnerAddress: new FormControl(bankAccount.OwnerAddress),
-  Tag: new FormCountry(bankAccount.Tag),
--->

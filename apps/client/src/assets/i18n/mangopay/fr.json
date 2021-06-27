@@ -45,14 +45,15 @@
     "bic": {
       "label": "BIC",
       "placeholder": " ",
-      "hint": " ",
-      "required": "Veuillez renseigner le BIC"
+      "hint": " "
     },
     "tag": {
       "label": "Nom du compte",
       "placeholder": "Compte pro",
       "hint": "Ce nom est utile pour différencier entre plusieurs comptes"
     },
+    "cancel": "Annuler",
+    "submit": "Enregistrer",
     "useUserAddress": "Utiliser votre adresse ?"
   },
   "country": {

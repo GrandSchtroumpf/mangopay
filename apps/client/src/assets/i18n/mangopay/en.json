@@ -45,14 +45,15 @@
     "bic": {
       "label": "BIC",
       "placeholder": " ",
-      "hint": " ",
-      "required": "Veuillez renseigner le BIC"
+      "hint": " "
     },
     "tag": {
       "label": "Missing value for 'mangopay.bank.tag.label'",
       "placeholder": "Missing value for 'mangopay.bank.tag.placeholder'",
       "hint": "Missing value for 'mangopay.bank.tag.hint'"
     },
+    "cancel": "Missing value for 'mangopay.bank.cancel'",
+    "submit": "Missing value for 'mangopay.bank.submit'",
     "useUserAddress": "Utiliser votre adresse ?"
   },
   "country": {

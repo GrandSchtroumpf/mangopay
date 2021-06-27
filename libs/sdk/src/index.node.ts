@@ -1,12 +1,26 @@
-import fetch from 'node-fetch';
-import { MangoPayOptions } from './lib/type';
+import fetch, { Response } from 'node-fetch';
+import { ErrorHandler, MangoPayOptions } from './lib/type';
 import { getMangoPayApi } from './lib/api';
 import { apiVersion } from './lib/utils';
 
 export * from './lib';
 
+async function handleResponse(res: Response, errorHandler?: ErrorHandler) {
+  // No Content
+  if (res.status === 204) return;
+  if (res.status === 400) {
+    const err = await res.json();
+    if (errorHandler) {
+      throw errorHandler(err, res.status);
+    } else {
+      throw err;
+    }
+  }
+  return res.json(); 
+}
+
 export function initialize(options: MangoPayOptions) {
-  const { clientId, apiKey, sandbox, context = {} } = options;
+  const { clientId, apiKey, sandbox, context = {}, errorHandler } = options;
   const domain = sandbox
     ? `https://api.sandbox.mangopay.com/v${apiVersion}`
     : `https://api.mangopay.com/v${apiVersion}`;
@@ -43,8 +57,7 @@ export function initialize(options: MangoPayOptions) {
       },
       body: JSON.stringify(data)
     });
-    if (res.status === 204) return;
-    return res.json(); 
+    return handleResponse(res, errorHandler);
   }
 
   async function put(url: string, data: unknown) {
@@ -57,7 +70,7 @@ export function initialize(options: MangoPayOptions) {
       },
       body: JSON.stringify(data)
     });
-    return res.json();
+    return handleResponse(res, errorHandler);
   }
 
   async function get(url: string, queryParams: Record<string, string | number | boolean> = {}) {
@@ -72,7 +85,7 @@ export function initialize(options: MangoPayOptions) {
         'Authorization': authorization
       },
     });
-    return res.json();
+    return handleResponse(res, errorHandler);
   }
 
   async function download(file: string) {

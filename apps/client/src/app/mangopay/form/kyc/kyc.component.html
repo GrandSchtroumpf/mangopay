@@ -1,0 +1,20 @@
+<ng-container *transloco="let t; read: 'kyc'">
+  <mat-form-field>
+    <mat-label>{{ t('type.label') }}</mat-label>
+    <mat-select>
+      <ng-container *ngFor="let option of options">
+        <!-- t(IDENTITY_PROOF, ADDRESS_PROOF) -->
+        <mat-option [value]="option">{{ t(option) }}</mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+  <footer>
+    <button type="button" mat-button (click)="fileInput.click()">
+      <mat-icon>perm_media</mat-icon>
+      <span>{{ t("file") }}</span>
+      <input #fileInput hidden (change)="file($event)" type="file" [accept]="types" />
+    </button>
+  </footer>
+  <!-- "You are able to upload multiple files. Max file size is 7MB" -->
+  <span>{{ t('max-size') }}</span>
+</ng-container>

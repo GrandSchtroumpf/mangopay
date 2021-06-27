@@ -23,9 +23,7 @@ export class NaturalUserComponent {
   constructor(
     private transloco: TranslocoService,
     private dateAdapter: DateAdapter<any>,
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
     const lang = this.transloco.getActiveLang();
@@ -40,7 +38,11 @@ export class NaturalUserComponent {
   }
 
   submit() {
-    this.save.emit(this.form.value);
+    const value = this.form.value;
+    if (this.form.get('Address').pristine) {
+      delete value.Address;
+    }
+    this.save.emit(value);
     if (this.form.valid) {
     }
   }
