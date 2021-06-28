@@ -1,0 +1,10 @@
+article {
+  border: dotted 1px var(--divider);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+
+  mat-icon {
+    margin-right: 8px;
+  }
+}

@@ -9,7 +9,13 @@
       </form>
     </mat-step>
     <mat-step [stepControl]="bankForm">
-      <bank-iban-form [form]="bankForm" (save)="createBank($event)"></bank-iban-form>
+      <form [formGroup]="bankForm" (ngSubmit)="createBank()">
+        <bank-iban-form [form]="bankForm"></bank-iban-form>
+        <footer>
+          <button mat-flat-button type="button" matStepperPrevious>{{ t('previous') }}</button>
+          <button mat-flat-button color="primary" type="submit">{{ t('next') }}</button>
+        </footer>
+      </form>
     </mat-step>
     <mat-step>
       <mango-kyc-form></mango-kyc-form>

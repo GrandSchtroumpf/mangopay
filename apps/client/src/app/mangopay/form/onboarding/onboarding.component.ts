@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { MatStepper } from '@angular/material/stepper';
 import type { CreateIbanAccount, CreateLegalUser } from '@mangopay/sdk';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormBankIban } from '../bank-iban/bank-iban.form';
@@ -20,12 +21,15 @@ export class OnboardingComponent {
   userForm = new FormLegalUser('SOLETRADER');
   bankForm = new FormBankIban();
 
-  constructor(
-    private functions: AngularFireFunctions,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  @ViewChild(MatStepper) stepper!: MatStepper;
+
+  constructor(private functions: AngularFireFunctions) {}
 
   async ngOnInit() {
+    await this.prepareBankAccount();
+  }
+
+  private async prepareBankAccount() {
     const user = await this.runCall('getUser', this.userId);
     this.bankForm.patchValue({
       OwnerName: `${user.FirstName} ${user.LastName}`,
@@ -45,19 +49,25 @@ export class OnboardingComponent {
   }
 
   async createUser() {
-    console.log(this.userForm.value);
+    console.log(this.userForm.get('LegalRepresentativeBirthday'));
     this.userForm.markAllAsTouched();
     if (this.userForm.valid) {
       const user = this.userForm.value;
       const res = await this.runCall('createSeller', user);
       if (res.user.Id) {
         this.userId = res.user.Id;
+        await this.prepareBankAccount();
+        this.stepper.next();
       }
     }
   }
 
-  async createBank(bankAccount: CreateIbanAccount) {
-    const res = await this.runCall('addBank', { userId: this.userId, bankAccount });
-    console.log(res);
+  async createBank() {
+    this.bankForm.markAllAsTouched();
+    if (this.bankForm.valid) {
+      const bankAccount = this.bankForm.value;
+      const res = await this.runCall('addBank', { userId: this.userId, bankAccount });
+      console.log(res);
+    }
   }
 }

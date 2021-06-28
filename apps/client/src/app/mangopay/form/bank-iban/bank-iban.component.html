@@ -1,36 +1,32 @@
 <ng-container *transloco="let t; read: 'mangopay.bank'">
-  <form [formGroup]="form" (ngSubmit)="submit()">
-    <fieldset>
-      <legend>{{ t('account') }}</legend>
-      <mat-form-field>
-        <mat-label>{{ t('owner.label') }}</mat-label>
-        <input matInput formControlName="OwnerName" [placeholder]="t('owner.placeholder')" required/>
-        <mat-hint>{{ t('owner.hint') }}</mat-hint>
-        <mat-error>{{ t('owner.required') }}</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t('iban.label') }}</mat-label>
-        <input matInput formControlName="IBAN" [placeholder]="t('iban.placeholder')" required [pattern]="ibanPattern"/>
-        <mat-hint>{{ t('iban.hint') }}</mat-hint>
-        <mat-error>{{ t('iban.required') }}</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t('bic.label') }}</mat-label>
-        <input matInput formControlName="BIC" [placeholder]="t('bic.placeholder')" [pattern]="bicPattern"/>
-        <mat-hint>{{ t('bic.hint') }}</mat-hint>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ t('tag.label') }}</mat-label>
-        <input matInput formControlName="Tag" [placeholder]="t('tag.placeholder')"/>
-        <mat-hint>{{ t('tag.hint') }}</mat-hint>
-      </mat-form-field>
-    </fieldset>
-    
-    <address-form name="OwnerAddress" required></address-form>
-
-    <footer>
-      <button mat-button type="reset" (click)="reset.emit(form.value)">{{ t('cancel') }}</button>
-      <button mat-flat-button color="primary" type="submit">{{ t('submit') }}</button>
-    </footer>
-  </form>
+  <fieldset [formGroup]="form">
+    <legend>{{ t('account') }}</legend>
+    <mat-form-field>
+      <mat-label>{{ t('owner.label') }}</mat-label>
+      <input matInput formControlName="OwnerName" [placeholder]="t('owner.placeholder')" required/>
+      <mat-hint>{{ t('owner.hint') }}</mat-hint>
+      <mat-error>{{ t('owner.required') }}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('iban.label') }}</mat-label>
+      <input matInput formControlName="IBAN" [placeholder]="t('iban.placeholder')" required [pattern]="ibanPattern"/>
+      <mat-hint>{{ t('iban.hint') }}</mat-hint>
+      <mat-error>{{ t('iban.required') }}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('bic.label') }}</mat-label>
+      <input matInput formControlName="BIC" [placeholder]="t('bic.placeholder')" [pattern]="bicPattern"/>
+      <mat-hint>{{ t('bic.hint') }}</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>{{ t('tag.label') }}</mat-label>
+      <input matInput formControlName="Tag" [placeholder]="t('tag.placeholder')"/>
+      <mat-hint>{{ t('tag.hint') }}</mat-hint>
+    </mat-form-field>
+  </fieldset>
+  
+  <fieldset>
+    <legend>{{ t('address') }}</legend>
+    <address-form [form]="form.get('OwnerAddress')" required></address-form>
+  </fieldset>
 </ng-container>

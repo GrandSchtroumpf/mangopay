@@ -43,6 +43,10 @@ $config: mat.get-color-config($client-theme);
 $background: map.get($config, 'background');
 $foreground: map.get($config, 'foreground');
 
+:root {
+  --divider: mat.get-color-from-palette($foreground, 'divider');
+}
+
 $card: mat.get-color-from-palette($background, 'card');
 $divider: mat.get-color-from-palette($foreground, 'divider');
 fieldset {

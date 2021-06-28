@@ -1,6 +1,5 @@
 {
   "address": {
-    "legend": "Missing value for 'mangopay.address.legend'",
     "addressLine1": {
       "label": "Missing value for 'mangopay.address.addressLine1.label'",
       "placeholder": "Missing value for 'mangopay.address.addressLine1.placeholder'",
@@ -26,7 +25,8 @@
     },
     "country": {
       "label": "Missing value for 'mangopay.address.country.label'"
-    }
+    },
+    "legend": "Missing value for 'mangopay.address.legend'"
   },
   "bank": {
     "account": "Compte Bancaire",
@@ -52,6 +52,7 @@
       "placeholder": "Missing value for 'mangopay.bank.tag.placeholder'",
       "hint": "Missing value for 'mangopay.bank.tag.hint'"
     },
+    "address": "Missing value for 'mangopay.bank.address'",
     "cancel": "Missing value for 'mangopay.bank.cancel'",
     "submit": "Missing value for 'mangopay.bank.submit'",
     "useUserAddress": "Utiliser votre adresse ?"
@@ -471,6 +472,10 @@
     "ZMW": "Missing value for 'mangopay.currency.ZMW'",
     "ZWD": "Missing value for 'mangopay.currency.ZWD'"
   },
+  "onboarding": {
+    "next": "Missing value for 'mangopay.onboarding.next'",
+    "previous": "Missing value for 'mangopay.onboarding.previous'"
+  },
   "user": {
     "personal": "Missing value for 'mangopay.user.personal'",
     "firstName": {
@@ -503,6 +508,7 @@
     "residence": {
       "label": "Missing value for 'mangopay.user.residence.label'"
     },
+    "address": "Missing value for 'mangopay.user.address'",
     "legal": {
       "company": "Missing value for 'mangopay.user.legal.company'",
       "name": {
@@ -519,10 +525,10 @@
         "label": "Missing value for 'mangopay.user.legal.idNumber.label'",
         "placeholder": "Missing value for 'mangopay.user.legal.idNumber.placeholder'",
         "hint": "Missing value for 'mangopay.user.legal.idNumber.hint'"
-      }
+      },
+      "address": "Missing value for 'mangopay.user.legal.address'",
+      "useSame": "Missing value for 'mangopay.user.legal.useSame'"
     },
-    "cancel": "Missing value for 'mangopay.user.cancel'",
-    "submit": "Missing value for 'mangopay.user.submit'",
     "natural": {
       "professional": "Missing value for 'mangopay.user.natural.professional'",
       "occupation": {
@@ -542,6 +548,8 @@
       },
       "cancel": "Missing value for 'mangopay.user.natural.cancel'",
       "submit": "Missing value for 'mangopay.user.natural.submit'"
-    }
+    },
+    "cancel": "Missing value for 'mangopay.user.cancel'",
+    "submit": "Missing value for 'mangopay.user.submit'"
   }
 }

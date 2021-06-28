@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService, TRANSLOCO_LANG } from '@ngneat/transloco';
 import { LegalUserFormComponent } from './legal.component';
 
 import { AddressFormModule } from '../../address/address.module';
@@ -12,8 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [LegalUserFormComponent],
@@ -31,6 +32,12 @@ import { MatButtonModule } from '@angular/material/button';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
-  ]
+    MatSlideToggleModule,
+  ],
+  providers: [{
+    provide: MAT_DATE_LOCALE,
+    deps: [TranslocoService],
+    useFactory: (transloco: TranslocoService) => transloco.getActiveLang(),
+  }]
 })
 export class LegalUserFormModule { }

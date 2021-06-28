@@ -1,4 +1,4 @@
-form {
+:host {
   display: grid;
   gap: 16px;
 }
@@ -11,6 +11,10 @@ mat-form-field {
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(2, 1fr);
+}
+
+mat-slide-toggle {
+  padding: 16px 0;
 }
 
 footer {

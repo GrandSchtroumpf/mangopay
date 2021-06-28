@@ -1,6 +1,5 @@
 {
   "address": {
-    "legend": "Adresse",
     "addressLine1": {
       "label": "Adresse",
       "placeholder": " ",
@@ -26,7 +25,8 @@
     },
     "country": {
       "label": "Pays"
-    }
+    },
+    "legend": "Adresse"
   },
   "bank": {
     "account": "Compte Bancaire",
@@ -52,9 +52,7 @@
       "placeholder": "Compte pro",
       "hint": "Ce nom est utile pour différencier entre plusieurs comptes"
     },
-    "cancel": "Annuler",
-    "submit": "Enregistrer",
-    "useUserAddress": "Utiliser votre adresse ?"
+    "address": "Adresse du propriétaire du compte"
   },
   "country": {
     "AD": "Andorre",
@@ -471,6 +469,10 @@
     "ZMW": "Missing value for 'mangopay.currency.ZMW'",
     "ZWD": "Missing value for 'mangopay.currency.ZWD'"
   },
+  "onboarding": {
+    "next": "Suivant",
+    "previous": "Précédent"
+  },
   "user": {
     "personal": "Informations personelles",
     "firstName": {
@@ -503,6 +505,7 @@
     "residence": {
       "label": "Pays de résidence"
     },
+    "address": "Adress personnelle",
     "legal": {
       "company": "Informations de votre entreprise",
       "name": {
@@ -519,10 +522,10 @@
         "label": "SIRET ou SIREN",
         "placeholder": " ",
         "hint": " "
-      }
+      },
+      "address": "Siège social",
+      "useSame": "Utiliser l'adresse personnelle"
     },
-    "cancel": "Annuler",
-    "submit": "Enregistrer",
     "natural": {
       "professional": "Informations professionelles",
       "occupation": {
@@ -539,9 +542,7 @@
         "6": ">120K€",
         "label": "Revenue annuel",
         "hint": " "
-      },
-      "cancel": "Annuler",
-      "submit": "Enregistrer"
+      }
     }
   }
 }

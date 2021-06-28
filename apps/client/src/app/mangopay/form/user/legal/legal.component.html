@@ -1,5 +1,5 @@
-<fieldset [formGroup]="form">
-  <ng-container *transloco="let t; read: 'mangopay.user'">
+<ng-container *transloco="let t; read: 'mangopay.user'">
+  <fieldset [formGroup]="form">
     <legend>{{ t('personal') }}</legend>
     <div class="names">
       <mat-form-field>
@@ -19,16 +19,21 @@
     </div>
     <mat-form-field>
       <mat-label>{{ t('email.label') }}</mat-label>
-      <input matInput type="email" formControlName="LegalRepresentativeEmail" [placeholder]="t('email.placeholder')"
-        required />
+      <input matInput type="email" formControlName="LegalRepresentativeEmail" [placeholder]="t('email.placeholder')" required />
       <mat-hint>{{ t('email.hint') }}</mat-hint>
       <mat-error>{{ t('email.required') }}</mat-error>
     </mat-form-field>
     <!-- Birthday -->
     <mat-form-field>
       <mat-label>{{ t('birthday.label') }}</mat-label>
-      <input matInput [matDatepicker]="dp" formControlName="LegalRepresentativeBirthday"
-        [placeholder]="t('birthday.placeholder')" required>
+      <input
+        matInput
+        formControlName="LegalRepresentativeBirthday"
+        [matDatepicker]="dp"
+        [placeholder]="t('birthday.placeholder')"
+        (focus)="dp.open()"
+        required
+      />
       <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker #dp></mat-datepicker>
       <mat-hint>{{ t('birthday.hint') }}</mat-hint>
@@ -43,13 +48,16 @@
     <country-form name="LegalRepresentativeCountryOfResidence" required>
       <mat-label>{{ t('residence.label') }}</mat-label>
     </country-form>
-  </ng-container>
-</fieldset>
+  </fieldset>
 
-<address-form name="LegalRepresentativeAddress" required></address-form>
+  <fieldset>
+    <legend>{{ t('address') }}</legend>
+    <address-form name="LegalRepresentativeAddress" required></address-form>
+  </fieldset>
+</ng-container>
 
-<fieldset [formGroup]="form">
-  <ng-container *transloco="let t; read: 'mangopay.user.legal'">
+<ng-container *transloco="let t; read: 'mangopay.user.legal'">
+  <fieldset [formGroup]="form">
     <legend>{{ t('company') }}</legend>
     <!-- Name -->
     <mat-form-field>
@@ -69,7 +77,14 @@
       <input matInput formControlName="CompanyNumber" [placeholder]="t('idNumber.placeholder')" required />
       <mat-hint>{{ t('idNumber.hint') }}</mat-hint>
     </mat-form-field>
-  </ng-container>
-</fieldset>
-
-<address-form name="HeadquartersAddress" required></address-form>
+  </fieldset>
+  <fieldset>
+    <legend>{{ t('address') }}</legend>
+    <mat-slide-toggle [checked]="useSameAddress" (change)="toggleSameAddress($event.checked)">
+      {{ t('useSame') }}
+    </mat-slide-toggle>
+    <ng-container *ngIf="!useSameAddress">
+      <address-form name="HeadquartersAddress" required></address-form>
+    </ng-container>
+  </fieldset>
+</ng-container>

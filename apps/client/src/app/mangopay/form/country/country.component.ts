@@ -20,10 +20,10 @@ import { FormGroup, ControlContainer } from '@angular/forms';
 export class CountryFormComponent {
   private value$ = new BehaviorSubject<string[]>(countries);
   options$ = this.value$.pipe(debounceTime(200));
-  form?: FormCountry;
   displayLabel = (key: string) => this.getLabel(key);
 
   @Input() name?: string;
+  @Input() form?: FormCountry;
   @Input() @coerceBoolean required: boolean | '' = false;
 
   constructor(

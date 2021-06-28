@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import type { CreateIbanAccount } from '@mangopay/sdk';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { bicPattern, FormBankIban, ibanPattern } from './bank-iban.form';
 
@@ -19,14 +18,4 @@ export class BankIbanFormComponent {
   useUserAddress = new FormControl(true);
   ibanPattern = ibanPattern;
   bicPattern = bicPattern;
-
-  @Output() save = new EventEmitter<CreateIbanAccount>();
-  @Output() reset = new EventEmitter<CreateIbanAccount>();
-
-
-  submit() {
-    if (this.form.valid) {
-      this.save.emit(this.form.value);
-    }
-  }
 }

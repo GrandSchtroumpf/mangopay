@@ -1,13 +1,8 @@
+:host {
+  display: grid;
+  gap: 16px;
+}
 fieldset {
   display: flex;
   flex-direction: column;
-}
-
-footer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  :last-child {
-    margin-left: 16px;
-  }
 }

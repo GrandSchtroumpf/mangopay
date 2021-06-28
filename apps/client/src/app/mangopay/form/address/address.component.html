@@ -1,13 +1,11 @@
 <ng-container *transloco="let t; read: 'mangopay.address'">
   <ng-container *ngIf="form">
-    <fieldset [formGroup]="form">
-      <legend>{{ t('legend') }}</legend>
       <!-- addressLine1 -->
       <mat-form-field>
         <mat-label>{{ t('addressLine1.label') }}</mat-label>
         <input
           matInput
-          formControlName="AddressLine1"
+          [formControl]="form.get('AddressLine1')"
           [placeholder]="t('addressLine1.placeholder')"
           [required]="required"
         />
@@ -19,7 +17,7 @@
         <mat-label>{{ t('addressLine2.label') }}</mat-label>
         <input
           matInput
-          formControlName="AddressLine2"
+          [formControl]="form.get('AddressLine2')"
           [placeholder]="t('addressLine2.placeholder')"
         />
         <mat-hint>{{ t('addressLine2.hint') }}</mat-hint>
@@ -29,7 +27,7 @@
         <mat-label>{{ t('city.label') }}</mat-label>
         <input
           matInput
-          formControlName="City"
+          [formControl]="form.get('City')"
           [placeholder]="t('city.placeholder')"
           [required]="required"
         />
@@ -42,7 +40,7 @@
         <input
           matInput
           type="number"
-          formControlName="PostalCode"
+          [formControl]="form.get('PostalCode')"
           [placeholder]="t('postalCode.placeholder')"
           [required]="required"
         />
@@ -50,9 +48,8 @@
         <mat-error>{{ t('postalCode.required') }}</mat-error>
       </mat-form-field>
       <!-- country -->
-      <country-form name="Country" [required]="required">
+      <country-form [form]="form.get('Country')" [required]="required">
         <mat-label>{{ t('country.label') }}</mat-label>
       </country-form>
-    </fieldset>
   </ng-container>
 </ng-container>
