@@ -471,55 +471,77 @@
     "ZMW": "Missing value for 'mangopay.currency.ZMW'",
     "ZWD": "Missing value for 'mangopay.currency.ZWD'"
   },
-  "naturalUser": {
-    "personal": "Missing value for 'mangopay.naturalUser.personal'",
+  "user": {
+    "personal": "Missing value for 'mangopay.user.personal'",
     "firstName": {
-      "label": "Missing value for 'mangopay.naturalUser.firstName.label'",
-      "placeholder": "Missing value for 'mangopay.naturalUser.firstName.placeholder'",
-      "hint": "Missing value for 'mangopay.naturalUser.firstName.hint'",
-      "required": "Missing value for 'mangopay.naturalUser.firstName.required'"
+      "label": "Missing value for 'mangopay.user.firstName.label'",
+      "placeholder": "Missing value for 'mangopay.user.firstName.placeholder'",
+      "hint": "Missing value for 'mangopay.user.firstName.hint'",
+      "required": "Missing value for 'mangopay.user.firstName.required'"
     },
     "lastName": {
-      "label": "Missing value for 'mangopay.naturalUser.lastName.label'",
-      "placeholder": "Missing value for 'mangopay.naturalUser.lastName.placeholder'",
-      "hint": "Missing value for 'mangopay.naturalUser.lastName.hint'",
-      "required": "Missing value for 'mangopay.naturalUser.lastName.required'"
+      "label": "Missing value for 'mangopay.user.lastName.label'",
+      "placeholder": "Missing value for 'mangopay.user.lastName.placeholder'",
+      "hint": "Missing value for 'mangopay.user.lastName.hint'",
+      "required": "Missing value for 'mangopay.user.lastName.required'"
     },
     "email": {
-      "label": "Missing value for 'mangopay.naturalUser.email.label'",
-      "placeholder": "Missing value for 'mangopay.naturalUser.email.placeholder'",
-      "hint": "Missing value for 'mangopay.naturalUser.email.hint'",
-      "required": "Missing value for 'mangopay.naturalUser.email.required'"
+      "label": "Missing value for 'mangopay.user.email.label'",
+      "placeholder": "Missing value for 'mangopay.user.email.placeholder'",
+      "hint": "Missing value for 'mangopay.user.email.hint'",
+      "required": "Missing value for 'mangopay.user.email.required'"
     },
     "birthday": {
-      "label": "Missing value for 'mangopay.naturalUser.birthday.label'",
-      "placeholder": "Missing value for 'mangopay.naturalUser.birthday.placeholder'",
-      "hint": "Missing value for 'mangopay.naturalUser.birthday.hint'",
-      "required": "Missing value for 'mangopay.naturalUser.birthday.required'"
+      "label": "Missing value for 'mangopay.user.birthday.label'",
+      "placeholder": "Missing value for 'mangopay.user.birthday.placeholder'",
+      "hint": "Missing value for 'mangopay.user.birthday.hint'",
+      "required": "Missing value for 'mangopay.user.birthday.required'"
     },
     "nationality": {
-      "label": "Missing value for 'mangopay.naturalUser.nationality.label'"
+      "label": "Missing value for 'mangopay.user.nationality.label'"
     },
     "residence": {
-      "label": "Missing value for 'mangopay.naturalUser.residence.label'"
+      "label": "Missing value for 'mangopay.user.residence.label'"
     },
-    "professional": "Missing value for 'mangopay.naturalUser.professional'",
-    "occupation": {
-      "label": "Missing value for 'mangopay.naturalUser.occupation.label'",
-      "placeholder": "Missing value for 'mangopay.naturalUser.occupation.placeholder'",
-      "hint": "Missing value for 'mangopay.naturalUser.occupation.hint'"
+    "legal": {
+      "company": "Missing value for 'mangopay.user.legal.company'",
+      "name": {
+        "label": "Missing value for 'mangopay.user.legal.name.label'",
+        "placeholder": "Missing value for 'mangopay.user.legal.name.placeholder'",
+        "hint": "Missing value for 'mangopay.user.legal.name.hint'"
+      },
+      "email": {
+        "label": "Missing value for 'mangopay.user.legal.email.label'",
+        "placeholder": "Missing value for 'mangopay.user.legal.email.placeholder'",
+        "hint": "Missing value for 'mangopay.user.legal.email.hint'"
+      },
+      "idNumber": {
+        "label": "Missing value for 'mangopay.user.legal.idNumber.label'",
+        "placeholder": "Missing value for 'mangopay.user.legal.idNumber.placeholder'",
+        "hint": "Missing value for 'mangopay.user.legal.idNumber.hint'"
+      }
     },
-    "incomeRange": {
-      "1": "<18K€",
-      "2": "Between 18K€ and 30K€",
-      "3": "Between 30K€ and 50K€",
-      "4": "Between 50K€ and 80K€",
-      "5": "Between 80K€ and 120K€",
-      "6": ">120K€",
-      "label": "Missing value for 'mangopay.naturalUser.incomeRange.label'",
-      "hint": "Missing value for 'mangopay.naturalUser.incomeRange.hint'"
-    },
-    "cancel": "Missing value for 'mangopay.naturalUser.cancel'",
-    "submit": "Missing value for 'mangopay.naturalUser.submit'"
+    "cancel": "Missing value for 'mangopay.user.cancel'",
+    "submit": "Missing value for 'mangopay.user.submit'",
+    "natural": {
+      "professional": "Missing value for 'mangopay.user.natural.professional'",
+      "occupation": {
+        "label": "Missing value for 'mangopay.user.natural.occupation.label'",
+        "placeholder": "Missing value for 'mangopay.user.natural.occupation.placeholder'",
+        "hint": "Missing value for 'mangopay.user.natural.occupation.hint'"
+      },
+      "incomeRange": {
+        "1": "Missing value for 'mangopay.user.natural.incomeRange.1'",
+        "2": "Missing value for 'mangopay.user.natural.incomeRange.2'",
+        "3": "Missing value for 'mangopay.user.natural.incomeRange.3'",
+        "4": "Missing value for 'mangopay.user.natural.incomeRange.4'",
+        "5": "Missing value for 'mangopay.user.natural.incomeRange.5'",
+        "6": "Missing value for 'mangopay.user.natural.incomeRange.6'",
+        "label": "Missing value for 'mangopay.user.natural.incomeRange.label'",
+        "hint": "Missing value for 'mangopay.user.natural.incomeRange.hint'"
+      },
+      "cancel": "Missing value for 'mangopay.user.natural.cancel'",
+      "submit": "Missing value for 'mangopay.user.natural.submit'"
+    }
   }
 }

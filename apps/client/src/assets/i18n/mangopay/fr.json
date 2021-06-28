@@ -471,7 +471,7 @@
     "ZMW": "Missing value for 'mangopay.currency.ZMW'",
     "ZWD": "Missing value for 'mangopay.currency.ZWD'"
   },
-  "naturalUser": {
+  "user": {
     "personal": "Informations personelles",
     "firstName": {
       "label": "Prénom",
@@ -503,23 +503,45 @@
     "residence": {
       "label": "Pays de résidence"
     },
-    "professional": "Informations professionelles",
-    "occupation": {
-      "label": "Profession",
-      "placeholder": " ",
-      "hint": " "
-    },
-    "incomeRange": {
-      "1": "<18K€",
-      "2": "Entre 18K€ et 30K€",
-      "3": "Entre 30K€ et 50K€",
-      "4": "Entre 50K€ et 80K€",
-      "5": "Entre 80K€ et 120K€",
-      "6": ">120K€",
-      "label": "Revenue annuel",
-      "hint": " "
+    "legal": {
+      "company": "Informations de votre entreprise",
+      "name": {
+        "label": "Nom de votre entreprise",
+        "placeholder": " ",
+        "hint": " "
+      },
+      "email": {
+        "label": "Email de l'entreprise",
+        "placeholder": " ",
+        "hint": " "
+      },
+      "idNumber": {
+        "label": "SIRET ou SIREN",
+        "placeholder": " ",
+        "hint": " "
+      }
     },
     "cancel": "Annuler",
-    "submit": "Enregistrer"
+    "submit": "Enregistrer",
+    "natural": {
+      "professional": "Informations professionelles",
+      "occupation": {
+        "label": "Profession",
+        "placeholder": " ",
+        "hint": " "
+      },
+      "incomeRange": {
+        "1": "<18K€",
+        "2": "Entre 18K€ et 30K€",
+        "3": "Entre 30K€ et 50K€",
+        "4": "Entre 50K€ et 80K€",
+        "5": "Entre 80K€ et 120K€",
+        "6": ">120K€",
+        "label": "Revenue annuel",
+        "hint": " "
+      },
+      "cancel": "Annuler",
+      "submit": "Enregistrer"
+    }
   }
 }

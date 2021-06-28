@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
-import { NaturalUserComponent } from './natural-user.component';
+import { LegalUserFormComponent } from './legal.component';
 
-import { AddressFormModule } from '../address/address.module';
-import { CountryFormModule } from '../country/country.module';
+import { AddressFormModule } from '../../address/address.module';
+import { CountryFormModule } from '../../country/country.module';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,8 +16,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [NaturalUserComponent],
-  exports: [NaturalUserComponent],
+  declarations: [LegalUserFormComponent],
+  exports: [LegalUserFormComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -33,4 +33,4 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
   ]
 })
-export class NaturalUserModule { }
+export class LegalUserFormModule { }

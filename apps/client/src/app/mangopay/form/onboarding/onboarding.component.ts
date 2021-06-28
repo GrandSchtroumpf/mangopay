@@ -1,21 +1,29 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import type { CreateIbanAccount, CreateNaturalUser } from '@mangopay/sdk';
+import type { CreateIbanAccount, CreateLegalUser } from '@mangopay/sdk';
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormBankIban } from '../bank-iban/bank-iban.form';
-import { FormNaturalUser } from '../natural-user/natural-user.form';
+import { FormLegalUser } from '../user/legal/legal.form';
 
 @Component({
   selector: 'mango-onboarding',
   templateUrl: './onboarding.component.html',
   styleUrls: ['./onboarding.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{
+    provide: TRANSLOCO_SCOPE,
+    useValue: 'mangopay'
+  }]
 })
 export class OnboardingComponent {
   userId = '112097770';
-  userForm = new FormNaturalUser();
+  userForm = new FormLegalUser('SOLETRADER');
   bankForm = new FormBankIban();
 
-  constructor(private functions: AngularFireFunctions) {}
+  constructor(
+    private functions: AngularFireFunctions,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   async ngOnInit() {
     const user = await this.runCall('getUser', this.userId);
@@ -36,10 +44,15 @@ export class OnboardingComponent {
     }
   }
 
-  async createUser(user: CreateNaturalUser) {
-    const res = await this.runCall('createSeller', user);
-    if (res.user.Id) {
-      this.userId = res.user.Id;
+  async createUser() {
+    console.log(this.userForm.value);
+    this.userForm.markAllAsTouched();
+    if (this.userForm.valid) {
+      const user = this.userForm.value;
+      const res = await this.runCall('createSeller', user);
+      if (res.user.Id) {
+        this.userId = res.user.Id;
+      }
     }
   }
 

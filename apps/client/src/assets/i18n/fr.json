@@ -1,4 +1,13 @@
 {
+  "kyc": {
+    "type": {
+      "label": "Missing value for 'kyc.type.label'"
+    },
+    "file": "Missing value for 'kyc.file'",
+    "max-size": "Missing value for 'kyc.max-size'",
+    "IDENTITY_PROOF": "Missing value for 'kyc.IDENTITY_PROOF'",
+    "ADDRESS_PROOF": "Missing value for 'kyc.ADDRESS_PROOF'"
+  },
   "bank": {
     "account": "Missing value for 'bank.account'",
     "owner": {

@@ -1,0 +1,75 @@
+<fieldset [formGroup]="form">
+  <ng-container *transloco="let t; read: 'mangopay.user'">
+    <legend>{{ t('personal') }}</legend>
+    <div class="names">
+      <mat-form-field>
+        <mat-label>{{ t('firstName.label') }}</mat-label>
+        <input matInput formControlName="LegalRepresentativeFirstName" [placeholder]="t('firstName.placeholder')"
+          required />
+        <mat-hint>{{ t('firstName.hint') }}</mat-hint>
+        <mat-error>{{ t('firstName.required') }}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ t('lastName.label') }}</mat-label>
+        <input matInput formControlName="LegalRepresentativeLastName" [placeholder]="t('lastName.placeholder')"
+          required />
+        <mat-hint>{{ t('lastName.hint') }}</mat-hint>
+        <mat-error>{{ t('lastName.required') }}</mat-error>
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <mat-label>{{ t('email.label') }}</mat-label>
+      <input matInput type="email" formControlName="LegalRepresentativeEmail" [placeholder]="t('email.placeholder')"
+        required />
+      <mat-hint>{{ t('email.hint') }}</mat-hint>
+      <mat-error>{{ t('email.required') }}</mat-error>
+    </mat-form-field>
+    <!-- Birthday -->
+    <mat-form-field>
+      <mat-label>{{ t('birthday.label') }}</mat-label>
+      <input matInput [matDatepicker]="dp" formControlName="LegalRepresentativeBirthday"
+        [placeholder]="t('birthday.placeholder')" required>
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp></mat-datepicker>
+      <mat-hint>{{ t('birthday.hint') }}</mat-hint>
+      <mat-error>{{ t('birthday.required') }}</mat-error>
+    </mat-form-field>
+    <!-- Nationality -->
+    <country-form name="LegalRepresentativeNationality" required>
+      <mat-label>{{ t('nationality.label') }}</mat-label>
+      <mat-error>Hello</mat-error>
+    </country-form>
+    <!-- CountryOfResidence -->
+    <country-form name="LegalRepresentativeCountryOfResidence" required>
+      <mat-label>{{ t('residence.label') }}</mat-label>
+    </country-form>
+  </ng-container>
+</fieldset>
+
+<address-form name="LegalRepresentativeAddress" required></address-form>
+
+<fieldset [formGroup]="form">
+  <ng-container *transloco="let t; read: 'mangopay.user.legal'">
+    <legend>{{ t('company') }}</legend>
+    <!-- Name -->
+    <mat-form-field>
+      <mat-label>{{ t('name.label') }}</mat-label>
+      <input matInput formControlName="Name" [placeholder]="t('name.placeholder')" required />
+      <mat-hint>{{ t('name.hint') }}</mat-hint>
+    </mat-form-field>
+    <!-- Email -->
+    <mat-form-field>
+      <mat-label>{{ t('email.label') }}</mat-label>
+      <input matInput formControlName="Email" [placeholder]="t('email.placeholder')" type="email" required />
+      <mat-hint>{{ t('email.hint') }}</mat-hint>
+    </mat-form-field>
+    <!-- CompanyNumber -->
+    <mat-form-field *ngIf="type === 'BUSINESS'">
+      <mat-label>{{ t('idNumber.label') }}</mat-label>
+      <input matInput formControlName="CompanyNumber" [placeholder]="t('idNumber.placeholder')" required />
+      <mat-hint>{{ t('idNumber.hint') }}</mat-hint>
+    </mat-form-field>
+  </ng-container>
+</fieldset>
+
+<address-form name="HeadquartersAddress" required></address-form>

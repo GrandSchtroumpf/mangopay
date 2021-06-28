@@ -1,6 +1,7 @@
 import type { Api, CountryISO, WithId, Address, Money, CurrencyISO, Timestamp } from '../type';
 import { Converter, fromMangoPay, toMangoPay } from '../utils';
 
+export type LegalPersonType = 'BUSINESS' | 'ORGANIZATION' | 'SOLETRADER';
 
 export interface User {
   Id: string;
@@ -51,11 +52,12 @@ export interface NaturalUser {
 }
 
 export interface LegalUser {
+  Id: string;
   Tag?: string;
   HeadquartersAddress: Address;
-  LegalPersonType: 'BUSINESS' | 'ORGANIZATION' | 'SOLETRADER';
+  LegalPersonType: LegalPersonType;
   Name: string;
-  LegalRepresentativeAddress: Address;
+  LegalRepresentativeAddress?: Address;
   LegalRepresentativeBirthday: Date;
   LegalRepresentativeCountryOfResidence: CountryISO;
   LegalRepresentativeNationality: CountryISO;
@@ -87,8 +89,26 @@ export interface EmoneyParams {
 
 export type CreateNaturalUser = Omit<NaturalUser, 'PersonType' | 'ProofOfIdentity' | 'ProofOfAddress'>;
 export type UpdateNaturalUser = WithId<Partial<CreateNaturalUser & User>>;
-export type CreateLegalUser = Omit<LegalUser, 'PersonType' | 'ProofOfRegistration' | 'Statute' | 'ShareholderDeclaration'>;
 export type UpdateLegalUser = WithId<Partial<LegalUser & User>>;
+
+
+export interface CreateLegalUser {
+  // Company Information
+  HeadquartersAddress: Address;
+  LegalPersonType: LegalPersonType,
+  Name: string;
+  Email: string;
+  CompanyNumber: string;
+  // Representative Information
+  LegalRepresentativeAddress: Address;
+  LegalRepresentativeBirthday: Date;
+  LegalRepresentativeCountryOfResidence: CountryISO;
+  LegalRepresentativeNationality: CountryISO;
+  LegalRepresentativeEmail: string;
+  LegalRepresentativeFirstName: string;
+  LegalRepresentativeLastName: string;
+  Tag?: string;
+}
 
 ///////////////
 // CONVERTER //

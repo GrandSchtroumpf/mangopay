@@ -1,11 +1,18 @@
-<mat-stepper #stepper>
-  <mat-step [stepControl]="userForm">
-    <natural-user-form [form]="userForm" (save)="createUser($event)"></natural-user-form>
-  </mat-step>
-  <mat-step [stepControl]="bankForm">
-    <bank-iban-form [form]="bankForm" (save)="createBank($event)"></bank-iban-form>
-  </mat-step>
-  <mat-step>
-    <mango-kyc-form></mango-kyc-form>
-  </mat-step>
-</mat-stepper>
+<ng-container *transloco="let t; read: 'mangopay.onboarding'">
+  <mat-stepper #stepper>
+    <mat-step [stepControl]="userForm">
+      <form [formGroup]="userForm" (ngSubmit)="createUser()">
+        <legal-user-form [form]="userForm"></legal-user-form>
+        <footer>
+          <button mat-flat-button color="primary" type="submit">{{ t('next') }}</button>
+        </footer>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="bankForm">
+      <bank-iban-form [form]="bankForm" (save)="createBank($event)"></bank-iban-form>
+    </mat-step>
+    <mat-step>
+      <mango-kyc-form></mango-kyc-form>
+    </mat-step>
+  </mat-stepper>
+</ng-container>
