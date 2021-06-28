@@ -6,6 +6,7 @@ export interface MangoPayOptions {
   apiKey: string;
   sandbox?: boolean;
   context?: MangoPayContext;
+  version?: '2' | '2.01';
   errorHandler?: ErrorHandler;
 }
 

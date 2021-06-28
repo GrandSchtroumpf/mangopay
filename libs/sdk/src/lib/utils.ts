@@ -1,7 +1,5 @@
 import type { MangoPayContext, Money } from "./type";
 
-export const apiVersion = '2.01';
-
 export function toMoney(ctx: MangoPayContext, money?: Money | number): Money {
   if (!money) return {
     Currency: ctx.currency || 'EUR',
@@ -32,7 +30,7 @@ export interface Converter<T> {
   money?: (keyof T)[];
 }
 
-export function toMangoPay<T>(origin: T, converter: Converter<T>) {
+export function toMangoPay<T = any>(origin: T, converter: Converter<T>) {
   const transform: Partial<{ [keys in keyof T]: number | Money }> = {};
   if (converter.date) {
     for (const key of converter.date) {
@@ -50,7 +48,7 @@ export function toMangoPay<T>(origin: T, converter: Converter<T>) {
   }
 }
 
-export function fromMangoPay<T>(origin: T, converter: Converter<T>): T {
+export function fromMangoPay<T = any>(origin: T, converter: Converter<T>): T {
   const transform: Partial<{ [keys in keyof T]: Date }> = {};
   if (converter.date) {
     for (const key of converter.date) {

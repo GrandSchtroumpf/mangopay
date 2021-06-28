@@ -19,7 +19,14 @@
     </div>
     <mat-form-field>
       <mat-label>{{ t('email.label') }}</mat-label>
-      <input matInput type="email" formControlName="LegalRepresentativeEmail" [placeholder]="t('email.placeholder')" required />
+      <input
+        matInput
+        type="email"
+        formControlName="LegalRepresentativeEmail"
+        [placeholder]="t('email.placeholder')"
+        (blur)="setDefaultEmail()"
+        required
+      />
       <mat-hint>{{ t('email.hint') }}</mat-hint>
       <mat-error>{{ t('email.required') }}</mat-error>
     </mat-form-field>

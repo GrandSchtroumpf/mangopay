@@ -18,12 +18,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
 import { OnboardingModule } from './mangopay/form/onboarding/onboarding.module';
+import { DashboardModule } from './mangopay/view/dashboard/dashboard.module';
 
 // Specific config for emulators
 const FIREBASE_EMUTLATORS = environment.useEmulators
   ? [
       { provide: USE_AUTH_EMULATOR, useValue: ['localhost', 9099] },
-      { provide: USE_FIRESTORE_EMULATOR, useValue: ['localhost', 8000] },
+      { provide: USE_FIRESTORE_EMULATOR, useValue: ['localhost', 8080] },
       { provide: USE_FUNCTIONS_EMULATOR, useValue: ['localhost', 5001] },
     ]
   : [];
@@ -40,7 +41,8 @@ const FIREBASE_EMUTLATORS = environment.useEmulators
     BrowserAnimationsModule,
     HttpClientModule,
     TranslocoRootModule,
-    OnboardingModule
+    OnboardingModule,
+    DashboardModule,
   ],
   providers: [
     { provide: REGION, useValue: 'europe-west1' },

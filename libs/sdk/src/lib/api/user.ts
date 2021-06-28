@@ -1,25 +1,28 @@
 import type { Api, CountryISO, WithId, Address, Money, CurrencyISO, Timestamp } from '../type';
-import { Converter, fromMangoPay, toMangoPay } from '../utils';
+import { Converter, fromMangoPay, toMangoPay, toTimestamp } from '../utils';
 
+export type PersonType = 'NATURAL' | 'LEGAL';
 export type LegalPersonType = 'BUSINESS' | 'ORGANIZATION' | 'SOLETRADER';
+export type KYCLevel = 'LIGHT' | 'REGULAR';
+export type User = NaturalUser | LegalUser;
 
-export interface User {
+export interface UserBase {
   Id: string;
-  /** Type of user */
-  PersonType: 'NATURAL' | 'LEGAL';
-  /** The person's email address (not more than 12 consecutive numbers) - must be a valid email */
+  PersonType: PersonType;
   Email: string;
-  /** @see https://docs.mangopay.com/guide/user-verification */
-  KYCLevel: 'LIGHT' | 'REGULAR';
-  /** Custom data that you can add to this item */
-  Tag: null | string;
-  /** When the item was created */
-  CreationDate?: number;
+  KYCLevel: KYCLevel;
+  Tag: null | string,
+  CreationDate: Date;
 }
 
 export interface NaturalUser {
+  Id: string;
   Tag?: string;
   PersonType: "NATURAL";
+  /** @see https://docs.mangopay.com/guide/user-verification */
+  KYCLevel: KYCLevel;
+  /** When the item was created */
+  CreationDate?: number;
   /** The name of the user  */
   FirstName: string;
   /**  last name of the user */
@@ -54,6 +57,12 @@ export interface NaturalUser {
 export interface LegalUser {
   Id: string;
   Tag?: string;
+  PersonType: 'LEGAL',
+  /** @see https://docs.mangopay.com/guide/user-verification */
+  KYCLevel: 'LIGHT' | 'REGULAR';
+  /** When the item was created */
+  CreationDate?: number;
+
   HeadquartersAddress: Address;
   LegalPersonType: LegalPersonType;
   Name: string;
@@ -113,24 +122,38 @@ export interface CreateLegalUser {
 ///////////////
 // CONVERTER //
 ///////////////
+const convertLegal: Converter<LegalUser> = {
+  date: ['LegalRepresentativeBirthday', 'CreationDate'],
+}
+const convertNatural: Converter<NaturalUser> = {
+  date: ['Birthday', 'CreationDate'],
+}
 
-const convertNaturalUser: Converter<CreateNaturalUser | UpdateNaturalUser> = {
-  date: ['Birthday'],
-}
-const convertLegalUser: Converter<CreateLegalUser | UpdateLegalUser> = {
-  date: ['LegalRepresentativeBirthday'],
+function fromUser(user: User | UserBase) {
+  return user.PersonType === 'LEGAL'
+    ? fromMangoPay<any>(user, convertLegal)
+    : fromMangoPay<any>(user, convertNatural);
 }
 
-function isNatural(user: User): user is NaturalUser & User {
-  return user.PersonType === 'NATURAL';
-}
-function isLegal(user: User): user is LegalUser & User {
-  return user.PersonType === 'LEGAL';
-}
-const fromUser = (user: User & (NaturalUser | LegalUser)) => isLegal(user)
-? fromMangoPay(user, convertLegalUser)
-: fromMangoPay(user, convertNaturalUser);
 
+export interface UserQueryParams {
+  Page?: number;
+  Per_Page?: number;
+  Sort?: 'DESC' | 'ASC';
+  Before_Date?: Date;
+  After_Date?: Date;
+}
+
+function toUserQueryParams(queryParams: UserQueryParams) {
+  const params: Partial<Record<keyof UserQueryParams, string | number>> = {};
+  if (queryParams.Sort) params.Sort = `CreationDate:${queryParams.Sort}`;
+  if (queryParams.Before_Date) params.Before_Date = toTimestamp(queryParams.Before_Date);
+  if (queryParams.After_Date) params.After_Date = toTimestamp(queryParams.After_Date);
+  return {
+    ...queryParams,
+    ...params,
+  };
+}
 
 /////////
 // API //
@@ -139,27 +162,27 @@ const fromUser = (user: User & (NaturalUser | LegalUser)) => isLegal(user)
 const baseUrl = 'users';
 export const userApi = ({ post, put, get }: Api) => ({
   natural: {
-    create(user: CreateNaturalUser): Promise<NaturalUser & User> {
-      return post(`${baseUrl}/natural`, toMangoPay(user, convertNaturalUser));
+    create(user: CreateNaturalUser): Promise<NaturalUser> {
+      return post(`${baseUrl}/natural`, toMangoPay<any>(user, convertNatural));
     },
     update(user: UpdateNaturalUser): Promise<NaturalUser> {
-      return put(`${baseUrl}/natural/${user.Id}`, toMangoPay(user, convertNaturalUser));
+      return put(`${baseUrl}/natural/${user.Id}`, toMangoPay<any>(user, convertNatural));
     },
   },
   legal: {
-    create(user: CreateLegalUser): Promise<CreateLegalUser & User> {
-      return post(`${baseUrl}/legal`, toMangoPay(user, convertLegalUser));
+    create(user: CreateLegalUser): Promise<LegalUser> {
+      return post(`${baseUrl}/legal`, toMangoPay<any>(user, convertLegal));
     },
-    update(user: UpdateLegalUser): Promise<CreateLegalUser & User> {
-      return put(`${baseUrl}/legal/${user.Id}`, toMangoPay(user, convertLegalUser));
+    update(user: UpdateLegalUser): Promise<LegalUser> {
+      return put(`${baseUrl}/legal/${user.Id}`, toMangoPay<any>(user, convertLegal));
     },
   },
   async get(userId: string) {
-    const user = await get<User & (NaturalUser | LegalUser)>(`${baseUrl}/${userId}`);
+    const user = await get<User>(`${baseUrl}/${userId}`);
     return fromUser(user);
   },
-  async list() {
-    const users = await get<(User & (LegalUser | NaturalUser))[]>(baseUrl);
+  async list(queryParams: UserQueryParams = {}) {
+    const users = await get<UserBase[]>(baseUrl, toUserQueryParams(queryParams));
     return users.map(fromUser);
   },
   /** @see: https://docs.mangopay.com/endpoints/v2.01/user-emoney */

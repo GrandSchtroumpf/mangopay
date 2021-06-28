@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
-import type { CreateIbanAccount, CreateLegalUser } from '@mangopay/sdk';
+import type { LegalUser } from '@mangopay/sdk';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { FormBankIban } from '../bank-iban/bank-iban.form';
+import { MangoPayService } from '../service';
 import { FormLegalUser } from '../user/legal/legal.form';
 
 @Component({
@@ -23,40 +23,31 @@ export class OnboardingComponent {
 
   @ViewChild(MatStepper) stepper!: MatStepper;
 
-  constructor(private functions: AngularFireFunctions) {}
+  constructor(
+    private service: MangoPayService
+  ) {}
 
   async ngOnInit() {
     await this.prepareBankAccount();
   }
 
-  private async prepareBankAccount() {
-    const user = await this.runCall('getUser', this.userId);
+  private async prepareBankAccount(user?: LegalUser) {
+    user = user || await this.service.user.get<LegalUser>(this.userId);
     this.bankForm.patchValue({
-      OwnerName: `${user.FirstName} ${user.LastName}`,
-      OwnerAddress: user.Address
+      OwnerName: `${user.LegalRepresentativeFirstName} ${user.LegalRepresentativeLastName}`,
+      OwnerAddress: user.HeadquartersAddress
     });
   }
 
-  private async runCall(name: string, params?: any) {
-    try {
-      const call = this.functions.httpsCallable(name);
-      const res = await call(params).toPromise();
-      return res; // Require for runCall to catch
-    } catch(err) {
-      console.log(err.details);
-      throw err;
-    }
-  }
-
   async createUser() {
-    console.log(this.userForm.get('LegalRepresentativeBirthday'));
     this.userForm.markAllAsTouched();
     if (this.userForm.valid) {
-      const user = this.userForm.value;
-      const res = await this.runCall('createSeller', user);
-      if (res.user.Id) {
-        this.userId = res.user.Id;
-        await this.prepareBankAccount();
+      const value = this.userForm.value;
+      const user = await this.service.user.legal.create(value);
+      console.log(user);
+      if (user.Id) {
+        this.userId = user.Id;
+        await this.prepareBankAccount(user);
         this.stepper.next();
       }
     }
@@ -66,7 +57,7 @@ export class OnboardingComponent {
     this.bankForm.markAllAsTouched();
     if (this.bankForm.valid) {
       const bankAccount = this.bankForm.value;
-      const res = await this.runCall('addBank', { userId: this.userId, bankAccount });
+      const res = await this.service.bankAccount.createIban(this.userId, bankAccount);
       console.log(res);
     }
   }

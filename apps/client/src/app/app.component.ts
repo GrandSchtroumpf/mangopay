@@ -10,6 +10,7 @@ import { FormBankIban } from './mangopay/form/bank-iban/bank-iban.form';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  
   // userId = '112097770';
   // bankForm = new FormBankIban();
   // amountForm = new FormControl();

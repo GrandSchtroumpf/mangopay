@@ -10,6 +10,7 @@ import { KycModule } from '../kyc/kyc.module';
 
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
+import { MangoPayFire, MangoPayService } from '../service';
 
 @NgModule({
   declarations: [OnboardingComponent],
@@ -23,6 +24,10 @@ import { MatButtonModule } from '@angular/material/button';
     KycModule,
     MatStepperModule,
     MatButtonModule,
-  ]
+  ],
+  providers: [{
+    provide: MangoPayService,
+    useClass: MangoPayFire
+  }]
 })
 export class OnboardingModule { }

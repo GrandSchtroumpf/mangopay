@@ -1,14 +1,13 @@
 import { MangoPayOptions } from './lib/type';
 import { getMangoPayApi } from './lib/api';
-import { apiVersion } from './lib/utils';
 
 export * from './lib';
 
 export function initialize(options: MangoPayOptions) {
-  const { clientId, apiKey, sandbox, context = {} } = options;
+  const { clientId, apiKey, sandbox, version, context = {} } = options;
   const domain = sandbox
-    ? `https://api.sandbox.mangopay.com/v${apiVersion}`
-    : `https://api.mangopay.com/v${apiVersion}`;
+    ? `https://api.sandbox.mangopay.com/v${version}`
+    : `https://api.mangopay.com/v${version}`;
 
   // OAuth 2.0 
   let token: string;

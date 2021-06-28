@@ -1,49 +1,25 @@
 import * as functions from 'firebase-functions';
-import type { ErrorHandler, MangoPay, NaturalUser } from '@mangopay/sdk';
+import type { CreateLegalUser } from '@mangopay/sdk';
+import { getMangoPay } from './app/mango';
 
+export * from './app/sync';
 
 const europe = functions.region('europe-west1');
-
-const errorHandler: ErrorHandler = (err) => {
-  console.log('ErrorHandler', err);
-  throw new functions.https.HttpsError('invalid-argument', err.Message, err.errors);
-}
-
-let mango: MangoPay;
-async function getMangoPay() {
-  if (!mango) {
-    const { initialize } = await import('@mangopay/sdk');
-    const { clientId, key } = functions.config().mangopay;
-    mango = initialize({
-      clientId,
-      apiKey: key,
-      sandbox: true,
-      context: {
-        currency: 'EUR',
-        lang: 'FR',
-      },
-      errorHandler
-    });
-  }
-  return mango;
-}
 
 export const registerHook = europe.https.onCall(async () => {
   const mangopay = await getMangoPay();
   return mangopay.hook.create('PAYIN_NORMAL_CREATED', 'http://localhost:5001/veggiemarket-5237c/europe-west1/onHook)')
 })
 
-export const createSeller = europe.https.onCall(async (data: NaturalUser) => {
+export const createSeller = europe.https.onCall(async (data: CreateLegalUser) => {
   const mangopay = await getMangoPay();
-  const user = await mangopay.user.natural.create(data);
-
+  const user = await mangopay.user.legal.create(data);
   // wallet
-  const wallet = await mangopay.wallet.create({
+  await mangopay.wallet.create({
     Owners: [user.Id], 
-    Description: 'A very cool wallet',
-    Tag: 'Postman create a wallet'
+    Description: 'Default'
   });
-  return { user, wallet };
+  return user;
 });
 
 export const getUser = europe.https.onCall(async (userId: string) => {
@@ -51,7 +27,7 @@ export const getUser = europe.https.onCall(async (userId: string) => {
   return mangopay.user.get(userId);
 })
 
-export const addBank = europe.https.onCall(async ({userId, bankAccount }) => {
+export const createBankAccount = europe.https.onCall(async ({userId, bankAccount }) => {
   const mangopay = await getMangoPay();
   return mangopay.bankAccount.createIban(userId, bankAccount);
 });

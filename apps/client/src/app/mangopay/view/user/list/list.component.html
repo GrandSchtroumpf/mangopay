@@ -1,0 +1,8 @@
+
+<ng-container *ngIf="users">
+  <mango-table [source]="users">
+    <ng-template colRef="email" label="Email" let-email>{{ email }}</ng-template>
+    <ng-template colRef="name" label="Name" let-name>{{ name }}</ng-template>
+    <ng-template colRef="type" label="Type" let-type>{{ type }}</ng-template>
+  </mango-table>
+</ng-container>

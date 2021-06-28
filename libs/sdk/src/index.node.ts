@@ -1,7 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 import { ErrorHandler, MangoPayOptions } from './lib/type';
 import { getMangoPayApi } from './lib/api';
-import { apiVersion } from './lib/utils';
 
 export * from './lib';
 
@@ -20,10 +19,10 @@ async function handleResponse(res: Response, errorHandler?: ErrorHandler) {
 }
 
 export function initialize(options: MangoPayOptions) {
-  const { clientId, apiKey, sandbox, context = {}, errorHandler } = options;
+  const { clientId, apiKey, sandbox, version = '2.1', context = {}, errorHandler } = options;
   const domain = sandbox
-    ? `https://api.sandbox.mangopay.com/v${apiVersion}`
-    : `https://api.mangopay.com/v${apiVersion}`;
+    ? `https://api.sandbox.mangopay.com/v${version}`
+    : `https://api.mangopay.com/v${version}`;
 
   // OAuth 2.0 
   let token: string;
