@@ -4,6 +4,7 @@ import type { IbanAccount, Transaction, User, Wallet } from '@mangopay/sdk';
 import { getApp } from './admin';
 
 interface DisplayUser {
+  id: string;
   type: 'legal' | 'natural';
   name: string;
   email: string;
@@ -21,6 +22,7 @@ function displayUser(
   console.log(user.PersonType);
   if (user.PersonType === 'LEGAL') {
     return {
+      id: user.Id,
       type: 'legal',
       name: `${user.LegalRepresentativeFirstName} ${user.LegalRepresentativeLastName}`,
       email: user.LegalRepresentativeEmail,
@@ -31,6 +33,7 @@ function displayUser(
   } else {
     console.log(user)
     return {
+      id: user.Id,
       type: 'natural',
       name: `${user.FirstName} ${user.LastName}`,
       email: user.Email,

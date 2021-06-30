@@ -1,5 +1,6 @@
 import { MangoPayOptions } from './lib/type';
 import { getMangoPayApi } from './lib/api';
+import { RequestInit } from 'node-fetch';
 
 export * from './lib';
 
@@ -31,14 +32,16 @@ export function initialize(options: MangoPayOptions) {
   }
 
 
-  async function post(url: string, data: unknown) {
+  async function post(url: string, data: unknown, idempotencyKey?: string) {
     const authorization = await getToken();
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+      'Authorization': authorization,
+    };
+    if (idempotencyKey) headers['Idempotency-Key'] = idempotencyKey;
     const res = await fetch(`${domain}/${clientId}/${url}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': authorization
-      },
+      headers,
       body: JSON.stringify(data)
     });
     if (res.status === 204) return;

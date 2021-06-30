@@ -26,13 +26,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <!-- Action per line -->
-    <ng-template *ngIf="link else withoutLink">
-      <tr mat-row *matRowDef="let row; columns: columns" [routerLink]="[link, row.id]"></tr>
-    </ng-template>
-    <ng-template #withoutLink>
-      <tr mat-row *matRowDef="let row; columns: columns" (click)="rowClick.emit(row)"></tr>
-    </ng-template>
+    <tr mat-row *matRowDef="let row; columns: columns" (click)="rowClick.emit(row)"></tr>
   </table>
 </ng-container>
 

@@ -3,11 +3,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'mango-dashboard-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss'],
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserComponent implements OnInit {
+export class UserListComponent implements OnInit {
 
   users$ = this.db.collection<any>('users').valueChanges();
 

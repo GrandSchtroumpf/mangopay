@@ -1,12 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import type { User } from '@mangopay/sdk';
 
-interface DisplayUser {
-  type: 'legal' | 'natural';
-  name: string;
-  email: string;
-  
-}
 
 @Component({
   selector: 'mango-user-list',
@@ -17,9 +12,15 @@ interface DisplayUser {
 export class ListComponent implements OnInit {
   @Input() users: unknown[] | null = [];
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
   }
 
+  navigate(user: { id: string }) {
+    this.router.navigate([user.id], { relativeTo: this.route });
+  }
 }

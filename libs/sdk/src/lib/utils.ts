@@ -60,3 +60,24 @@ export function fromMangoPay<T = any>(origin: T, converter: Converter<T>): T {
     ...transform,
   }
 }
+
+
+
+export interface PaginationParams {
+  Page?: number;
+  Per_Page?: number;
+  Sort?: 'DESC' | 'ASC';
+  Before_Date?: Date;
+  After_Date?: Date;
+}
+
+export function toPagination<T>(queryParams: PaginationParams, sortBy?: keyof T) {
+  const params: Partial<Record<keyof PaginationParams, string | number>> = {};
+  if (queryParams.Sort) params.Sort = `${sortBy || 'CreationDate'}:${queryParams.Sort}`;
+  if (queryParams.Before_Date) params.Before_Date = toTimestamp(queryParams.Before_Date);
+  if (queryParams.After_Date) params.After_Date = toTimestamp(queryParams.After_Date);
+  return {
+    ...queryParams,
+    ...params,
+  };
+}

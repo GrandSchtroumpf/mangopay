@@ -1,5 +1,5 @@
-import type { Api, CountryISO, WithId, Address, Money, CurrencyISO, Timestamp } from '../type';
-import { Converter, fromMangoPay, toMangoPay, toTimestamp } from '../utils';
+import type { Api, CountryISO, WithId, Address, Money, CurrencyISO } from '../type';
+import { Converter, fromMangoPay, PaginationParams, toMangoPay, toPagination } from '../utils';
 
 export type PersonType = 'NATURAL' | 'LEGAL';
 export type LegalPersonType = 'BUSINESS' | 'ORGANIZATION' | 'SOLETRADER';
@@ -136,25 +136,6 @@ function fromUser(user: User | UserBase) {
 }
 
 
-export interface UserQueryParams {
-  Page?: number;
-  Per_Page?: number;
-  Sort?: 'DESC' | 'ASC';
-  Before_Date?: Date;
-  After_Date?: Date;
-}
-
-function toUserQueryParams(queryParams: UserQueryParams) {
-  const params: Partial<Record<keyof UserQueryParams, string | number>> = {};
-  if (queryParams.Sort) params.Sort = `CreationDate:${queryParams.Sort}`;
-  if (queryParams.Before_Date) params.Before_Date = toTimestamp(queryParams.Before_Date);
-  if (queryParams.After_Date) params.After_Date = toTimestamp(queryParams.After_Date);
-  return {
-    ...queryParams,
-    ...params,
-  };
-}
-
 /////////
 // API //
 /////////
@@ -181,8 +162,8 @@ export const userApi = ({ post, put, get }: Api) => ({
     const user = await get<User>(`${baseUrl}/${userId}`);
     return fromUser(user);
   },
-  async list(queryParams: UserQueryParams = {}) {
-    const users = await get<UserBase[]>(baseUrl, toUserQueryParams(queryParams));
+  async list(queryParams: PaginationParams = {}) {
+    const users = await get<UserBase[]>(baseUrl, toPagination(queryParams));
     return users.map(fromUser);
   },
   /** @see: https://docs.mangopay.com/endpoints/v2.01/user-emoney */

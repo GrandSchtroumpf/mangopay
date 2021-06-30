@@ -9,7 +9,7 @@ import { MangoTableModule } from '../../utils/table/table.module';
   exports: [ListComponent],
   imports: [
     CommonModule,
-    MangoTableModule
+    MangoTableModule,
   ]
 })
 export class UserListModule { }

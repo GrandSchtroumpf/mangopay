@@ -19,8 +19,6 @@ import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 
 /**
  * @dev Allows to sort nested object
@@ -66,7 +64,6 @@ export class TableFilterComponent implements AfterViewInit {
 
   // Name of the column headers
   @Input() pageSize = 10;
-  @Input() link: string | null = null;
   @Input() filterPredicate?: (data: unknown, filter: string) => boolean;
   @Input() set source(data: unknown[]) {
     this.dataSource = new MatTableDataSource(data);
@@ -92,7 +89,6 @@ export class TableFilterComponent implements AfterViewInit {
   @ContentChildren(ColRefDirective, { descendants: false }) cols!: QueryList<ColRefDirective>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @HostListener('class.clickable') clickable = !!this.link;
 
   columns?: string[];
 
