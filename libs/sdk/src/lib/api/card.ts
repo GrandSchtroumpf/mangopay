@@ -1,11 +1,12 @@
-import { Api, MangoPayContext, CurrencyISO, CardType, CountryISO } from "../type";
+import { Api, MangoPayContext, CurrencyISO, CardType, CountryISO, BaseType } from "../type";
+import { Converter, fromMangoPay, toMangoPay } from "../utils";
 
 export type CardValidity = 'UNKNOWN' | 'VALID' | 'INVALID';
 export type CardStatus = 'CREATED' | 'VALIDATED' | 'ERROR';
 
-export interface CardRegistration {
-  Id: string;
-  Tag?: string;
+// Registration
+
+export interface CardRegistration extends BaseType {
   UserId: string;
   Currency: CurrencyISO;
   AccessKey: string;
@@ -34,11 +35,11 @@ export interface CreateCardRegistration {
   CardType?: CardType;
 }
 
-export interface Card {
-  Id: string;
-  Tag?: string;
+// Card
+
+export interface Card extends BaseType {
   /** The expiry date of the card - must be in format MMYY */
-  ExpirationDate: number;
+  ExpirationDate: Date;
   /** A partially obfuscated version of the credit card number */
   Alias: string;
   /** The provider of the card */
@@ -59,37 +60,45 @@ export interface Card {
   Fingerprint: string;
 }
 
-function toRegistration(ctx: MangoPayContext, registration: CreateCardRegistration) {
-  return {
-    Currency: registration.Currency || ctx.currency,
-    ...registration
-  }
+
+const registrationConverter: Converter<CardRegistration> = {
+  date: ['CreationDate'],
+  currency: ['Currency'],
 }
+const toRegistration = toMangoPay(registrationConverter);
+
+const cardConverter: Converter<Card> = {
+  date: ['ExpirationDate', 'CreationDate'],
+  boolean: ['Active'],
+  currency: ['Currency'],
+  country: ['Country'],
+}
+const fromCard = fromMangoPay(cardConverter);
 
 export const cardApi = ({ context, post, put, get }: Api) => ({
   registration: {
-    create(card: CreateCardRegistration): Promise<CardRegistration> {
-      return post('cardregistrations', toRegistration(context, card));
+    create(registration: CreateCardRegistration): Promise<CardRegistration> {
+      return post('cardregistrations', toRegistration(registration, context));
     },
     update(registrationId: string, registrationData: string): Promise<CardRegistration> {
       return put(`cardregistrations/${registrationId}`, { RegistrationData: registrationData });
     },
-    get(registrationId: string): Promise<CardRegistration | undefined> {
-      return get(`cardregistrations/${registrationId}`);
+    async get(registrationId: string): Promise<CardRegistration> {
+      const registration = await get(`cardregistrations/${registrationId}`);
+      return toRegistration(registration, context);
     }
   },
-  get(cardId: string): Promise<Card | undefined> {
-    return get(`cards/${cardId}`);
+  async get(cardId: string): Promise<Card> {
+    const card = await get(`cards/${cardId}`);
+    return fromCard(card);
   },
-  listByUser(userId: string): Promise<Card[]> {
-    return get(`users/${userId}/cards`);
+  async listByUser(userId: string): Promise<Card[]> {
+    const cards = await get<Card[]>(`users/${userId}/cards`);
+    return cards.map(fromCard);
   },
-  listByFingerprint(fingerprint: string): Promise<Card[]> {
-    return get(`cards/fingerprints/${fingerprint}`);
-  },
-  // @todo() move to transactions
-  listTransactionByFingerprint(fingerprint: string) {
-    return get(`cards/fingerprints/${fingerprint}/transactions`);
+  async listByFingerprint(fingerprint: string): Promise<Card[]> {
+    const cards = await get<Card[]>(`cards/fingerprints/${fingerprint}`);
+    return cards.map(fromCard);
   },
   /** ⚠️ Note that once deactivated, a card can't be reactivated afterwards */
   deactivate(cardId: string) {

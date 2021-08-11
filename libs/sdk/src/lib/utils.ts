@@ -28,10 +28,15 @@ export function fromTimestamp(timestamp: number) {
 export interface Converter<T> {
   date?: (keyof T)[];
   money?: (keyof T)[];
+  boolean?: (keyof T)[];
+  // Context
+  currency?: (keyof T)[];
+  country?: (keyof T)[];
+  lang?: (keyof T)[];
 }
 
-export function toMangoPay<T = any>(origin: T, converter: Converter<T>) {
-  const transform: Partial<{ [keys in keyof T]: number | Money }> = {};
+export const toMangoPay = <T = any>(converter: Converter<T>) => (origin: any, context?: MangoPayContext) => {
+  const transform: Partial<{ [keys in keyof T]: number | Money | boolean }> = {};
   if (converter.date) {
     for (const key of converter.date) {
       if (origin[key]) transform[key] = toTimestamp(origin[key] as any);
@@ -42,13 +47,33 @@ export function toMangoPay<T = any>(origin: T, converter: Converter<T>) {
       if (origin[key]) transform[key] = toMoney(origin[key]);
     }
   }
+  if (converter.boolean) {
+    for (const key of converter.boolean) {
+      if (origin[key]) transform[key] = !!origin[key];
+    }
+  }
+  if (converter.currency) {
+    for (const key of converter.currency) {
+      if (origin[key]) transform[key] = origin[key] ?? context?.currency;
+    }
+  }
+  if (converter.country) {
+    for (const key of converter.country) {
+      if (origin[key]) transform[key] = origin[key] ?? context?.country;
+    }
+  }
+  if (converter.lang) {
+    for (const key of converter.lang) {
+      if (origin[key]) transform[key] = origin[key] ?? context?.lang;
+    }
+  }
   return {
     ...origin,
     ...transform,
   }
 }
 
-export function fromMangoPay<T = any>(origin: T, converter: Converter<T>): T {
+export const fromMangoPay = <T = any>(converter: Converter<T>) => (origin: any): T => {
   const transform: Partial<{ [keys in keyof T]: Date }> = {};
   if (converter.date) {
     for (const key of converter.date) {

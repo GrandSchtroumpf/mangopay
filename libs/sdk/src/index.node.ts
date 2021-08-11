@@ -1,6 +1,7 @@
 import fetch, { Response } from 'node-fetch';
 import { ErrorHandler, MangoPayOptions } from './lib/type';
 import { getMangoPayApi } from './lib/api';
+import { Converter, toMangoPay } from './lib';
 
 export * from './lib';
 
@@ -72,7 +73,11 @@ export function initialize(options: MangoPayOptions) {
     return handleResponse(res, errorHandler);
   }
 
-  async function get(url: string, queryParams: Record<string, string | number | boolean> = {}) {
+  async function get<T>(
+    url: string,
+    converter: Converter<T>,
+    queryParams: Record<string, string | number | boolean> = {}
+  ) {
     const params = Object.entries(queryParams).map(([key, value]) => `${key}=${value}`).join('&');
     const baseUrl = `${domain}/${clientId}/${url}`;
     const getUrl = [baseUrl, params].join('?');

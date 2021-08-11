@@ -2,6 +2,7 @@ import { Api, Address, CurrencyISO, FundsType, Money } from '../type';
 
 export type BusinessType = 'MARKETPLACE' | 'CROWDFUNDING' | 'FRANCHISE' | 'OTHER';
 export type Sector = 'RENTALS' | 'STORES_FASHION_ACCESSORIES_OBJECTS' | 'BEAUTY_COSMETICS_HEALTH' | 'FOOD_WINE_RESTAURANTS' | 'HOSPITALITY_TRAVEL_CORIDING' | 'ART_MUSIC_ENTERTAINMENT' | 'FURNITURE_GARDEN' | 'SERVICES_JOBBING_EDUCATION' | 'SPORT_RECREATION_ACTIVITIES' | 'TICKETING' | 'LOAN' | 'EQUITY' | 'PROPERTY_EQUITY' | 'REWARDS_CHARITY' | 'POOL_GROUP_PAYMENT' | 'FRANCHISE' | 'OTHER';
+
 export interface ClientDetails {
   PlatformType: BusinessType;
   ClientId: string;

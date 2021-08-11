@@ -1,3 +1,11 @@
+export interface BaseType {
+  Id: string;
+  /** Custom information on the item */
+  Tag: string | null;
+  /** When the item was created */
+  CreationDate: Date;
+}
+
 /////////
 // API //
 /////////
